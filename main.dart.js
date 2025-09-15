@@ -28348,8 +28348,9 @@ _.f=_.e=_.d=$
 _.dH$=a
 _.b4$=b
 _.c=_.a=null},
-aGa:function aGa(a,b){this.a=a
-this.b=b},
+aGa:function aGa(a,b,c){this.a=a
+this.b=b
+this.c=c},
 aG9:function aG9(a){this.a=a},
 aG8:function aG8(){},
 MJ:function MJ(){},
@@ -44306,23 +44307,23 @@ $1$down(a){return this.I(this,A.Q("call","$1$down",0,[a],["down"],0))},
 $1$padding(a){return this.I(this,A.Q("call","$1$padding",0,[a],["padding"],0))},
 $3$color$fontSize$fontWeight(a,b,c){return this.I(this,A.Q("call","$3$color$fontSize$fontWeight",0,[a,b,c],["color","fontSize","fontWeight"],0))},
 $4$color$fontSize$fontWeight$height(a,b,c,d){return this.I(this,A.Q("call","$4$color$fontSize$fontWeight$height",0,[a,b,c,d],["color","fontSize","fontWeight","height"],0))},
+$8$removeBottomInset$removeBottomPadding$removeLeftPadding$removeRightPadding$removeTopPadding(a,b,c,d,e,f,g,h){return this.I(this,A.Q("call","$8$removeBottomInset$removeBottomPadding$removeLeftPadding$removeRightPadding$removeTopPadding",0,[a,b,c,d,e,f,g,h],["removeBottomInset","removeBottomPadding","removeLeftPadding","removeRightPadding","removeTopPadding"],0))},
+$7$removeBottomPadding$removeLeftPadding$removeRightPadding$removeTopPadding(a,b,c,d,e,f,g){return this.I(this,A.Q("call","$7$removeBottomPadding$removeLeftPadding$removeRightPadding$removeTopPadding",0,[a,b,c,d,e,f,g],["removeBottomPadding","removeLeftPadding","removeRightPadding","removeTopPadding"],0))},
+$8$maintainBottomViewPadding$removeBottomPadding$removeLeftPadding$removeRightPadding$removeTopPadding(a,b,c,d,e,f,g,h){return this.I(this,A.Q("call","$8$maintainBottomViewPadding$removeBottomPadding$removeLeftPadding$removeRightPadding$removeTopPadding",0,[a,b,c,d,e,f,g,h],["maintainBottomViewPadding","removeBottomPadding","removeLeftPadding","removeRightPadding","removeTopPadding"],0))},
+$1$bottom(a){return this.I(this,A.Q("call","$1$bottom",0,[a],["bottom"],0))},
+$2$textDirection(a,b){return this.I(this,A.Q("call","$2$textDirection",0,[a,b],["textDirection"],0))},
+$1$minimum(a){return this.I(this,A.Q("call","$1$minimum",0,[a],["minimum"],0))},
+$2$reversed(a,b){return this.I(this,A.Q("call","$2$reversed",0,[a,b],["reversed"],0))},
+$1$floatingActionButtonScale(a){return this.I(this,A.Q("call","$1$floatingActionButtonScale",0,[a],["floatingActionButtonScale"],0))},
+$1$removeBottom(a){return this.I(this,A.Q("call","$1$removeBottom",0,[a],["removeBottom"],0))},
+$2$viewInsets$viewPadding(a,b){return this.I(this,A.Q("call","$2$viewInsets$viewPadding",0,[a,b],["viewInsets","viewPadding"],0))},
+$2$padding$viewPadding(a,b){return this.I(this,A.Q("call","$2$padding$viewPadding",0,[a,b],["padding","viewPadding"],0))},
 $3$dimensions$textScaler(a,b,c){return this.I(this,A.Q("call","$3$dimensions$textScaler",0,[a,b,c],["dimensions","textScaler"],0))},
 $3$boxHeightStyle(a,b,c){return this.I(this,A.Q("call","$3$boxHeightStyle",0,[a,b,c],["boxHeightStyle"],0))},
 $3$includePlaceholders$includeSemanticsLabels(a,b,c){return this.I(this,A.Q("call","$3$includePlaceholders$includeSemanticsLabels",0,[a,b,c],["includePlaceholders","includeSemanticsLabels"],0))},
 $1$selectable(a){return this.I(this,A.Q("call","$1$selectable",0,[a],["selectable"],0))},
 $1$direction(a){return this.I(this,A.Q("call","$1$direction",0,[a],["direction"],0))},
 $25$background$backgroundColor$color$debugLabel$decoration$decorationColor$decorationStyle$decorationThickness$fontFamily$fontFamilyFallback$fontFeatures$fontSize$fontStyle$fontVariations$fontWeight$foreground$height$leadingDistribution$letterSpacing$locale$overflow$package$shadows$textBaseline$wordSpacing(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,a0,a1,a2,a3,a4,a5){return this.I(this,A.Q("call","$25$background$backgroundColor$color$debugLabel$decoration$decorationColor$decorationStyle$decorationThickness$fontFamily$fontFamilyFallback$fontFeatures$fontSize$fontStyle$fontVariations$fontWeight$foreground$height$leadingDistribution$letterSpacing$locale$overflow$package$shadows$textBaseline$wordSpacing",0,[a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,a0,a1,a2,a3,a4,a5],["background","backgroundColor","color","debugLabel","decoration","decorationColor","decorationStyle","decorationThickness","fontFamily","fontFamilyFallback","fontFeatures","fontSize","fontStyle","fontVariations","fontWeight","foreground","height","leadingDistribution","letterSpacing","locale","overflow","package","shadows","textBaseline","wordSpacing"],0))},
-$1$minimum(a){return this.I(this,A.Q("call","$1$minimum",0,[a],["minimum"],0))},
-$2$reversed(a,b){return this.I(this,A.Q("call","$2$reversed",0,[a,b],["reversed"],0))},
-$8$removeBottomInset$removeBottomPadding$removeLeftPadding$removeRightPadding$removeTopPadding(a,b,c,d,e,f,g,h){return this.I(this,A.Q("call","$8$removeBottomInset$removeBottomPadding$removeLeftPadding$removeRightPadding$removeTopPadding",0,[a,b,c,d,e,f,g,h],["removeBottomInset","removeBottomPadding","removeLeftPadding","removeRightPadding","removeTopPadding"],0))},
-$7$removeBottomPadding$removeLeftPadding$removeRightPadding$removeTopPadding(a,b,c,d,e,f,g){return this.I(this,A.Q("call","$7$removeBottomPadding$removeLeftPadding$removeRightPadding$removeTopPadding",0,[a,b,c,d,e,f,g],["removeBottomPadding","removeLeftPadding","removeRightPadding","removeTopPadding"],0))},
-$8$maintainBottomViewPadding$removeBottomPadding$removeLeftPadding$removeRightPadding$removeTopPadding(a,b,c,d,e,f,g,h){return this.I(this,A.Q("call","$8$maintainBottomViewPadding$removeBottomPadding$removeLeftPadding$removeRightPadding$removeTopPadding",0,[a,b,c,d,e,f,g,h],["maintainBottomViewPadding","removeBottomPadding","removeLeftPadding","removeRightPadding","removeTopPadding"],0))},
-$1$bottom(a){return this.I(this,A.Q("call","$1$bottom",0,[a],["bottom"],0))},
-$2$textDirection(a,b){return this.I(this,A.Q("call","$2$textDirection",0,[a,b],["textDirection"],0))},
-$1$floatingActionButtonScale(a){return this.I(this,A.Q("call","$1$floatingActionButtonScale",0,[a],["floatingActionButtonScale"],0))},
-$1$removeBottom(a){return this.I(this,A.Q("call","$1$removeBottom",0,[a],["removeBottom"],0))},
-$2$viewInsets$viewPadding(a,b){return this.I(this,A.Q("call","$2$viewInsets$viewPadding",0,[a,b],["viewInsets","viewPadding"],0))},
-$2$padding$viewPadding(a,b){return this.I(this,A.Q("call","$2$padding$viewPadding",0,[a,b],["padding","viewPadding"],0))},
 $4$color$fontSize$fontWeight$letterSpacing(a,b,c,d){return this.I(this,A.Q("call","$4$color$fontSize$fontWeight$letterSpacing",0,[a,b,c,d],["color","fontSize","fontWeight","letterSpacing"],0))},
 $2$maxWidth$minWidth(a,b){return this.I(this,A.Q("call","$2$maxWidth$minWidth",0,[a,b],["maxWidth","minWidth"],0))},
 $2$maxHeight$minHeight(a,b){return this.I(this,A.Q("call","$2$maxHeight$minHeight",0,[a,b],["maxHeight","minHeight"],0))},
@@ -99403,20 +99404,30 @@ l(){var s=this.d
 s===$&&A.a()
 s.l()
 this.aai()},
-J(a){var s,r,q,p=this,o=null,n=t.w,m=A.aJ(a,o,n).w,l=A.aJ(a,o,n).w.e===B.w,k=l?B.h2:B.GR,j=l?B.Go:B.Gn,i=A.ar(B.d.aL(229.5),B.f.v()>>>16&255,B.f.v()>>>8&255,B.f.v()&255),h=l?B.h5:B.b0
-n=A.b([k,j],t.t_)
-s=p.e
+J(a){var s,r,q,p,o,n,m=this,l=null,k=t.w,j=A.aJ(a,l,k).w.a.a,i=j<600,h=A.aJ(a,l,k).w.e===B.w,g=h?B.h2:B.GR,f=h?B.Go:B.Gn,e=A.ar(B.d.aL(229.5),B.f.v()>>>16&255,B.f.v()>>>8&255,B.f.v()&255),d=h?B.h5:B.b0
+k=A.b([g,f],t.t_)
+s=m.e
 s===$&&A.a()
-r=p.f
+r=m.f
 r===$&&A.a()
-m=m.a.a*0.4
-q=t.p
-return A.FQ(o,o,A.dv(o,A.hE(new A.bi(B.IL,A.dM(A.b([A.yk(new A.dk(r,!1,A.dv(o,o,B.t,o,o,new A.cA(B.f,B.ka,o,o,A.b([new A.bu(3,B.H,A.ar(B.d.aL(76.5),B.k.v()>>>16&255,B.k.v()>>>8&255,B.k.v()&255),B.h,7)],t.V),o,B.eE),o,m,o,o,o,o,m),o),s,o,!0),B.Bt,new A.dk(p.f,!1,A.dM(A.b([A.bp("Welcome",o,o,o,o,o,A.aKk().$3$color$fontSize$fontWeight(B.f,36,B.f3),B.cz,o),A.bp("To",o,o,o,o,o,A.aKk().$3$color$fontSize$fontWeight(B.f,36,B.am),B.cz,o),A.bp("Arpana Hosanna",o,o,o,o,o,A.aKk().$3$color$fontSize$fontWeight(B.f,32,B.P),B.cz,o),A.bp("Spiritual songs to uplift your soul",o,o,o,o,o,A.aKk().$4$color$fontSize$fontWeight$height(i,16,B.o,1.3),B.cz,o)],q),B.R,B.L,B.X),o),B.Tq,new A.dk(p.f,!1,A.e_(new A.wD(A.v8(),new A.aGa(h,B.f),o,t.qs),60,220),o)],q),B.R,B.L,B.bp),o),o,o),B.t,o,o,new A.cA(o,o,o,o,o,new A.oQ(B.ex,B.js,B.cB,n,B.M3,o),B.ac),o,1/0,o,o,o,o,1/0),o,o)}}
+q=i?j*0.6:j*0.4
+j=i?j*0.6:j*0.4
+s=A.yk(new A.dk(r,!1,A.dv(l,l,B.t,l,l,new A.cA(B.f,B.ka,l,l,A.b([new A.bu(3,B.H,A.ar(B.d.aL(76.5),B.k.v()>>>16&255,B.k.v()>>>8&255,B.k.v()&255),B.h,7)],t.V),l,B.eE),l,j,l,l,l,l,q),l),s,l,!0)
+q=m.f
+j=A.bp("Welcome",l,l,l,l,l,A.aKk().$3$color$fontSize$fontWeight(B.f,i?28:36,B.f3),B.cz,l)
+r=A.bp("To",l,l,l,l,l,A.aKk().$3$color$fontSize$fontWeight(B.f,i?28:36,B.am),B.cz,l)
+p=A.bp("Arpana Hosanna",l,l,l,l,l,A.aKk().$3$color$fontSize$fontWeight(B.f,i?24:32,B.P),B.cz,l)
+o=t.p
+p=A.dM(A.b([j,r,p,A.bp("Spiritual songs to uplift your soul",l,l,l,l,l,A.aKk().$4$color$fontSize$fontWeight$height(e,i?14:16,B.o,1.3),B.cz,l)],o),B.R,B.L,B.X)
+r=m.f
+j=i?180:220
+n=i?50:60
+return A.FQ(l,l,A.dv(l,A.hE(new A.bi(B.IL,A.dM(A.b([s,B.Bt,new A.dk(q,!1,p,l),B.Tq,new A.dk(r,!1,A.e_(new A.wD(A.v8(),new A.aGa(d,B.f,i),l,t.qs),n,j),l)],o),B.R,B.L,B.bp),l),l,l),B.t,l,l,new A.cA(l,l,l,l,l,new A.oQ(B.ex,B.js,B.cB,k,B.M3,l),B.ac),l,1/0,l,l,l,l,1/0),l,l)}}
 A.aGa.prototype={
 $2(a,b){var s,r=null
 if(b.a===B.k0)return new A.rB(A.aT_(r,r,new A.xj("https://raw.githubusercontent.com/MadanBabu1314114/application_assets/refs/heads/master/hosanna_songs_prayers_app/loading.gif",1,r,B.a_i)),r,r,r,400,400,r,B.c6,r,r,B.Y,B.ca,!1,r)
 s=A.aLC(r,r,this.a,r,r,r,6,r,r,B.f,r,r,r,B.jN,new A.cL(A.dh(38),new A.bt(this.b,2,B.E,-1)),r,r,r,r,r)
-return A.b29(!1,A.bp("GET STARTED",r,r,r,r,r,A.AG().$4$color$fontSize$fontWeight$letterSpacing(B.f,20,B.cM,1.2),r,r),r,r,r,r,r,r,new A.aG9(a),r,s)},
+return A.b29(!1,A.bp("GET STARTED",r,r,r,r,r,A.AG().$4$color$fontSize$fontWeight$letterSpacing(B.f,this.c?18:20,B.cM,1.2),r,r),r,r,r,r,r,r,new A.aG9(a),r,s)},
 $S:594}
 A.aG9.prototype={
 $0(){A.hf(this.a,!1).mX(A.aS4(new A.aG8(),null,t.z))},
