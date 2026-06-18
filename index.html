@@ -14,13 +14,11 @@
     <style>
         /* ═══ THEME TOKENS — Multi-Colored Glassmorphism ═══ */
         :root {
-            /* Glassmorphism base */
             --glass-bg: rgba(255, 255, 255, 0.06);
             --glass-border: rgba(255, 255, 255, 0.12);
             --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
             --glass-blur: blur(16px);
 
-            /* Dark theme defaults */
             --bg-primary: #0a0618;
             --bg-secondary: #110b24;
             --bg-card: rgba(255, 255, 255, 0.05);
@@ -29,7 +27,6 @@
             --text-muted: #7a6a9e;
             --border-color: rgba(255, 255, 255, 0.08);
 
-            /* Multi-color palette */
             --color-purple: #7c3aed;
             --color-purple-light: #a855f7;
             --color-purple-glow: rgba(124, 58, 237, 0.3);
@@ -43,23 +40,19 @@
             --color-blue: #3b82f6;
             --color-blue-glow: rgba(59, 130, 246, 0.2);
 
-            /* Gradients */
             --gradient-hero: linear-gradient(135deg, rgba(124, 58, 237, 0.3) 0%, rgba(212, 168, 67, 0.15) 50%, rgba(236, 72, 153, 0.1) 100%);
             --gradient-card: linear-gradient(135deg, rgba(124, 58, 237, 0.08), rgba(20, 184, 166, 0.05));
             --gradient-glow: linear-gradient(135deg, var(--color-purple), var(--color-gold), var(--color-teal));
 
-            /* Transitions */
             --transition-smooth: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             --transition-bounce: 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
 
-            /* Sizes */
             --radius-sm: 8px;
             --radius-md: 16px;
             --radius-lg: 24px;
             --radius-xl: 32px;
         }
 
-        /* Light Theme */
         [data-theme="light"] {
             --bg-primary: #f5f0ff;
             --bg-secondary: #ede6ff;
@@ -151,7 +144,7 @@
             }
         }
 
-        /* ═══ PARTICLE CANVAS (subtle) ═══ */
+        /* ═══ PARTICLE CANVAS ═══ */
         #particles {
             position: fixed;
             inset: 0;
@@ -160,7 +153,7 @@
             opacity: 0.4;
         }
 
-        /* ═══ MAGIC CIRCLE (decorative) ═══ */
+        /* ═══ MAGIC CIRCLE ═══ */
         .magic-circle {
             position: fixed;
             pointer-events: none;
@@ -311,7 +304,7 @@
             transform: scale(1.05);
         }
 
-        /* ═══ HERO — Glassmorphism ═══ */
+        /* ═══ HERO ═══ */
         .hero {
             position: relative;
             overflow: hidden;
@@ -418,7 +411,7 @@
             }
         }
 
-        /* ═══ CONTROLS — Glass ═══ */
+        /* ═══ CONTROLS ═══ */
         .controls {
             max-width: 900px;
             margin: 0 auto;
@@ -618,7 +611,7 @@
             }
         }
 
-        /* ═══ SONGS GRID — Glass Cards ═══ */
+        /* ═══ SONGS GRID ═══ */
         .songs-grid {
             max-width: 1280px;
             margin: 14px auto 60px;
@@ -628,7 +621,7 @@
             gap: 14px;
         }
 
-        /* ═══ SONG CARD — Glassmorphism ═══ */
+        /* ═══ SONG CARD ═══ */
         .song-card {
             background: var(--glass-bg);
             backdrop-filter: var(--glass-blur);
@@ -818,7 +811,7 @@
             height: 12px;
         }
 
-        /* ═══ NOW PLAYING BAR — Glass ═══ */
+        /* ═══ NOW PLAYING BAR — with Volume Control ═══ */
         .now-playing {
             position: fixed;
             bottom: 0;
@@ -836,6 +829,7 @@
             transform: translateY(100%);
             transition: transform var(--transition-bounce);
             box-shadow: 0 -8px 32px rgba(0, 0, 0, 0.2);
+            flex-wrap: wrap;
         }
         .now-playing.visible {
             transform: translateY(0);
@@ -845,7 +839,7 @@
         }
         .np-info {
             flex: 1;
-            min-width: 0;
+            min-width: 80px;
         }
         .np-title {
             font-size: 0.78rem;
@@ -863,7 +857,8 @@
         .np-controls {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
+            flex-shrink: 0;
         }
         .np-btn {
             width: 32px;
@@ -880,6 +875,7 @@
             font-size: 0.7rem;
             font-weight: 600;
             backdrop-filter: var(--glass-blur);
+            flex-shrink: 0;
         }
         .np-btn:hover {
             border-color: var(--color-purple-light);
@@ -901,6 +897,7 @@
         }
         .np-progress-wrap {
             flex: 2;
+            min-width: 100px;
             max-width: 280px;
             display: flex;
             flex-direction: column;
@@ -930,12 +927,82 @@
             font-size: 0.55rem;
             color: var(--text-muted);
         }
+
+        /* ── Volume Control ── */
+        .np-volume-wrap {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            flex-shrink: 0;
+            min-width: 80px;
+        }
+        .np-volume-btn {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            color: var(--text-secondary);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all var(--transition-smooth);
+            font-size: 0.8rem;
+            backdrop-filter: var(--glass-blur);
+            flex-shrink: 0;
+        }
+        .np-volume-btn:hover {
+            border-color: var(--color-purple-light);
+            color: var(--color-purple-light);
+            transform: scale(1.05);
+        }
+        .np-volume-slider {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 60px;
+            height: 3px;
+            border-radius: 2px;
+            background: rgba(255, 255, 255, 0.15);
+            outline: none;
+            transition: background var(--transition-smooth);
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+        [data-theme="light"] .np-volume-slider {
+            background: rgba(0, 0, 0, 0.1);
+        }
+        .np-volume-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--color-purple), var(--color-purple-light));
+            cursor: pointer;
+            box-shadow: 0 0 12px var(--color-purple-glow);
+            transition: transform var(--transition-smooth);
+        }
+        .np-volume-slider::-webkit-slider-thumb:hover {
+            transform: scale(1.2);
+        }
+        .np-volume-slider::-moz-range-thumb {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--color-purple), var(--color-purple-light));
+            cursor: pointer;
+            border: none;
+            box-shadow: 0 0 12px var(--color-purple-glow);
+        }
+
         .np-close {
             color: var(--text-muted);
             cursor: pointer;
             font-size: 1rem;
             padding: 4px;
             transition: color var(--transition-smooth);
+            flex-shrink: 0;
         }
         .np-close:hover {
             color: var(--text-primary);
@@ -944,7 +1011,7 @@
             display: none;
         }
 
-        /* ═══ MODAL — Glass ═══ */
+        /* ═══ MODAL ═══ */
         .modal-overlay {
             position: fixed;
             inset: 0;
@@ -1065,7 +1132,7 @@
             border-bottom: 1px solid var(--glass-border);
         }
 
-        /* ═══ MODAL BODY — Improved Lyrics ═══ */
+        /* ═══ MODAL BODY — Lyrics with Layout Toggle ═══ */
         .modal-body {
             overflow-y: auto;
             padding: 20px 24px;
@@ -1079,23 +1146,55 @@
             border-radius: 3px;
         }
 
-        .trans-toggle {
-            font-size: 0.65rem;
-            color: var(--color-purple-light);
-            cursor: pointer;
-            background: none;
-            border: none;
-            padding: 0;
-            margin-bottom: 14px;
-            text-decoration: underline;
-            text-underline-offset: 3px;
-            font-family: 'Inter', sans-serif;
-            transition: color var(--transition-smooth);
+        /* ── Toggle Bar ── */
+        .modal-toolbar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 16px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--glass-border);
+            align-items: center;
         }
-        .trans-toggle:hover {
-            color: var(--color-gold);
+        .modal-toolbar .toggle-group {
+            display: flex;
+            gap: 4px;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 3px;
+            backdrop-filter: var(--glass-blur);
+        }
+        .modal-toolbar .toggle-btn {
+            padding: 4px 12px;
+            border-radius: 16px;
+            border: none;
+            cursor: pointer;
+            font-size: 0.6rem;
+            font-weight: 600;
+            letter-spacing: 0.04em;
+            transition: all var(--transition-smooth);
+            background: transparent;
+            color: var(--text-muted);
+            font-family: 'Inter', sans-serif;
+            white-space: nowrap;
+        }
+        .modal-toolbar .toggle-btn.active {
+            background: linear-gradient(135deg, var(--color-purple), var(--color-purple-light));
+            color: #fff;
+            box-shadow: 0 2px 12px var(--color-purple-glow);
+        }
+        .modal-toolbar .toggle-btn:hover:not(.active) {
+            color: var(--text-primary);
+        }
+        .modal-toolbar .toggle-label {
+            font-size: 0.6rem;
+            color: var(--text-muted);
+            letter-spacing: 0.05em;
+            margin-right: 2px;
         }
 
+        /* ── Lyrics Layout: Stacked (default) ── */
         .section-block.chorus-block {
             margin-bottom: 24px;
             background: rgba(212, 168, 67, 0.06);
@@ -1121,7 +1220,6 @@
             background: linear-gradient(90deg, var(--color-gold), transparent);
             opacity: 0.3;
         }
-
         .section-block.verse-block {
             margin-bottom: 20px;
             display: flex;
@@ -1194,7 +1292,35 @@
             border-left-color: rgba(168, 85, 247, 0.2);
         }
 
-        /* Refrain Box (legacy) */
+        /* ── Lyrics Layout: Split (side-by-side) ── */
+        .lyrics-split .lyric-line {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            padding: 3px 0;
+            align-items: start;
+        }
+        .lyrics-split .line-tel {
+            border-right: 1px solid var(--glass-border);
+            padding-right: 12px;
+            font-size: 0.9rem;
+        }
+        .lyrics-split .line-trans {
+            padding-left: 0;
+            border-left: none;
+            margin-top: 0;
+            font-size: 0.75rem;
+            font-style: italic;
+        }
+        [data-lang="en"] .lyrics-split .line-tel {
+            font-size: 0.8rem;
+        }
+        [data-lang="en"] .lyrics-split .line-trans {
+            font-size: 0.85rem;
+            font-style: normal;
+        }
+
+        /* ── Refrain Box ── */
         .refrain-box {
             background: rgba(212, 168, 67, 0.06);
             border: 1px solid rgba(212, 168, 67, 0.12);
@@ -1387,9 +1513,6 @@
                 align-items: flex-end;
                 padding: 0;
             }
-            .np-progress-wrap {
-                display: none;
-            }
             .section-block.verse-block {
                 gap: 10px;
             }
@@ -1410,6 +1533,12 @@
                 height: 36px;
                 font-size: 0.8rem;
             }
+            .np-volume-wrap {
+                min-width: 60px;
+            }
+            .np-volume-slider {
+                width: 40px;
+            }
             .filter-btn {
                 font-size: 0.65rem;
                 padding: 4px 10px;
@@ -1425,6 +1554,22 @@
             }
             .song-title-primary {
                 font-size: 0.95rem;
+            }
+            .lyrics-split .lyric-line {
+                grid-template-columns: 1fr;
+                gap: 2px;
+            }
+            .lyrics-split .line-tel {
+                border-right: none;
+                padding-right: 0;
+            }
+            .lyrics-split .line-trans {
+                padding-left: 6px;
+                border-left: 2px solid rgba(124, 58, 237, 0.15);
+            }
+            .modal-toolbar .toggle-btn {
+                font-size: 0.55rem;
+                padding: 3px 10px;
             }
         }
 
@@ -1479,6 +1624,26 @@
             .song-card {
                 padding: 14px 16px;
             }
+            .np-volume-wrap {
+                min-width: 50px;
+            }
+            .np-volume-slider {
+                width: 30px;
+            }
+            .np-progress-wrap {
+                max-width: 120px;
+                min-width: 60px;
+            }
+            .np-info {
+                min-width: 60px;
+            }
+            .modal-toolbar {
+                gap: 6px;
+            }
+            .modal-toolbar .toggle-btn {
+                font-size: 0.5rem;
+                padding: 2px 8px;
+            }
         }
 
         /* ═══ LIGHT THEME OVERRIDES ═══ */
@@ -1522,6 +1687,9 @@
             background: linear-gradient(135deg, var(--color-purple), var(--color-purple-light));
             color: #fff;
         }
+        [data-theme="light"] .np-volume-slider {
+            background: rgba(0, 0, 0, 0.1);
+        }
         [data-theme="light"] .btn-video {
             background: rgba(255, 255, 255, 0.5);
         }
@@ -1536,6 +1704,12 @@
         }
         [data-theme="light"] .song-card.is-new::after {
             border-color: var(--color-purple);
+        }
+        [data-theme="light"] .modal-toolbar .toggle-group {
+            background: rgba(255, 255, 255, 0.4);
+        }
+        [data-theme="light"] .np-volume-btn {
+            background: rgba(255, 255, 255, 0.4);
         }
     </style>
 </head>
@@ -1680,6 +1854,17 @@
             </div>
             <div class="np-time"><span id="np-current">0:00</span><span id="np-total">0:00</span></div>
         </div>
+        <!-- Volume Control -->
+        <div class="np-volume-wrap">
+            <button class="np-volume-btn" id="np-volume-btn" onclick="toggleMute()" title="Mute / Unmute">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+                    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"/>
+                    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"/>
+                </svg>
+            </button>
+            <input type="range" class="np-volume-slider" id="np-volume-slider" min="0" max="1" step="0.01" value="0.8">
+        </div>
         <span class="np-close" onclick="closeAudio()">✕</span>
     </div>
     <audio id="audio-player"></audio>
@@ -1714,8 +1899,13 @@
         let currentSongId = null;
         let showTrans = true;
         let videoShown = false;
+        let lyricsLayout = 'stacked'; // 'stacked' | 'split'
+        let isMuted = false;
+        let previousVolume = 0.8;
+
         const audioEl = document.getElementById('audio-player');
         const nowPlaying = document.getElementById('now-playing');
+        const volumeSlider = document.getElementById('np-volume-slider');
 
         // ============================================================
         // 3. HELPERS
@@ -1938,7 +2128,7 @@
         }
 
         // ============================================================
-        // 11. AUDIO PLAYER
+        // 11. AUDIO PLAYER with Volume Control
         // ============================================================
         function playAudio(id) {
             const song = SONGS.find(s => s.id === id);
@@ -1948,6 +2138,7 @@
             document.getElementById('np-title').textContent = primaryTitle;
             document.getElementById('np-sub').textContent = song.scale ? `Key: ${song.scale}` : 'Hosanna Ministers';
             audioEl.src = song.audio;
+            audioEl.volume = parseFloat(volumeSlider.value);
             audioEl.play();
             nowPlaying.classList.add('visible');
             document.getElementById('np-play-btn').textContent = '⏸';
@@ -1965,6 +2156,51 @@
         function closeAudio() { audioEl.pause();
             nowPlaying.classList.remove('visible'); }
 
+        // ── Volume Control ──
+        function toggleMute() {
+            if (isMuted) {
+                audioEl.volume = previousVolume;
+                volumeSlider.value = previousVolume;
+                isMuted = false;
+                updateVolumeIcon(false);
+            } else {
+                previousVolume = audioEl.volume || 0.8;
+                audioEl.volume = 0;
+                volumeSlider.value = 0;
+                isMuted = true;
+                updateVolumeIcon(true);
+            }
+        }
+
+        function updateVolumeIcon(muted) {
+            const btn = document.getElementById('np-volume-btn');
+            if (muted || audioEl.volume === 0) {
+                btn.innerHTML =
+                    `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg>`;
+            } else if (audioEl.volume < 0.5) {
+                btn.innerHTML =
+                    `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg>`;
+            } else {
+                btn.innerHTML =
+                    `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>`;
+            }
+        }
+
+        // Volume slider event
+        volumeSlider.addEventListener('input', function() {
+            const val = parseFloat(this.value);
+            audioEl.volume = val;
+            if (val === 0) {
+                isMuted = true;
+                updateVolumeIcon(true);
+            } else {
+                isMuted = false;
+                previousVolume = val;
+                updateVolumeIcon(false);
+            }
+        });
+
+        // Audio events
         audioEl.addEventListener('timeupdate', () => {
             const pct = audioEl.duration ? audioEl.currentTime / audioEl.duration * 100 : 0;
             document.getElementById('np-progress-fill').style.width = pct + '%';
@@ -1972,6 +2208,12 @@
             document.getElementById('np-total').textContent = fmtTime(audioEl.duration);
         });
         audioEl.addEventListener('ended', () => { document.getElementById('np-play-btn').textContent = '▶'; });
+        audioEl.addEventListener('volumechange', () => {
+            if (audioEl.volume === 0) { isMuted = true;
+                updateVolumeIcon(true); } else { isMuted = false;
+                updateVolumeIcon(false); }
+            volumeSlider.value = audioEl.volume;
+        });
 
         function onProgressClick(e) {
             const r = document.getElementById('np-progress').getBoundingClientRect();
@@ -2031,23 +2273,60 @@
             }
         }
 
+        // ── Lyrics Layout Toggle ──
+        function setLyricsLayout(layout) {
+            lyricsLayout = layout;
+            const song = SONGS.find(s => s.id === currentSongId);
+            if (song) {
+                renderModalBody(song);
+                // Update button states
+                document.querySelectorAll('.layout-toggle-btn').forEach(b => {
+                    b.classList.toggle('active', b.dataset.layout === layout);
+                });
+            }
+        }
+
+        function toggleTrans() {
+            showTrans = !showTrans;
+            const song = SONGS.find(s => s.id === currentSongId);
+            if (song) renderModalBody(song);
+            const btn = document.querySelector('.trans-toggle');
+            if (btn) btn.textContent = showTrans ? 'Hide transliteration' : 'Show transliteration';
+        }
+
         function renderModalBody(song) {
             let html = '';
-            html += `<button class="trans-toggle" onclick="toggleTrans()">${showTrans?'Hide':'Show'} transliteration</button>`;
+
+            // ── Toolbar ──
+            html += `<div class="modal-toolbar">
+                        <div class="toggle-group">
+                            <span class="toggle-label">Layout:</span>
+                            <button class="toggle-btn layout-toggle-btn active" data-layout="stacked" onclick="setLyricsLayout('stacked')">Stacked</button>
+                            <button class="toggle-btn layout-toggle-btn" data-layout="split" onclick="setLyricsLayout('split')">Split</button>
+                        </div>
+                        <button class="toggle-btn trans-toggle" onclick="toggleTrans()">${showTrans ? 'Hide' : 'Show'} transliteration</button>
+                    </div>`;
+
+            // ── Refrain ──
             if (song.refrain && song.refrain.telugu) {
                 const rtel = lang === 'te' ? song.refrain.telugu : song.refrain.transliteration || song.refrain.telugu;
                 const rsub = lang === 'te' ? (song.refrain.transliteration || '') : (song.refrain.telugu || '');
                 html +=
                     `<div class="refrain-box"><div class="refrain-label">Refrain</div><div class="refrain-tel">${rtel}</div>${showTrans&&rsub?`<div class="refrain-trans">${rsub}</div>`:''}</div>`;
             }
+
+            // ── Sections ──
             const sects = (song.sections || []).slice().sort((a, b) => {
                 const o = ['chorus', 'verse', 'bridge'];
                 const ai = o.indexOf(a.sectionType),
                     bi = o.indexOf(b.sectionType);
                 return ai !== bi ? ai - bi : a.number - b.number;
             });
+
             let vNum = 0,
                 chShown = false;
+            const splitClass = lyricsLayout === 'split' ? ' lyrics-split' : '';
+
             for (const sec of sects) {
                 const t = sec.sectionType || 'verse';
                 let label = '';
@@ -2059,6 +2338,7 @@
                     label = 'Verse ' + vNum;
                     blockClass += ' verse-block'; } else { label = 'Bridge';
                     blockClass += ' verse-block'; }
+
                 const telLines = sec.telugu || [];
                 const transLines = sec.transliteration || [];
                 const lines = telLines.map((line, i) => {
@@ -2066,16 +2346,19 @@
                     const primary = lang === 'te' ? line : trans;
                     const secondary = lang === 'te' ? trans : line;
                     const isRefrain = /^[|॥]/.test(line) || /^[|॥]/.test(trans);
-                    return `<div class="lyric-line${isRefrain?' refrain-line':''}"><div class="line-tel">${primary||line}</div>${showTrans&&secondary?`<div class="line-trans">${secondary}</div>`:''}</div>`;
+                    return `<div class="lyric-line${isRefrain?' refrain-line':''}">
+                                <div class="line-tel">${primary||line}</div>
+                                ${showTrans&&secondary?`<div class="line-trans">${secondary}</div>`:''}
+                            </div>`;
                 }).join('');
 
                 if (t === 'chorus') {
-                    html += `<div class="${blockClass}">
+                    html += `<div class="${blockClass}${splitClass}">
                                 <div class="section-label chorus">${label}</div>
                                 <div class="lyric-lines">${lines}</div>
                             </div>`;
                 } else {
-                    html += `<div class="${blockClass}">
+                    html += `<div class="${blockClass}${splitClass}">
                                 <div class="verse-num-badge">${vNum}</div>
                                 <div class="verse-content">
                                     <div class="lyric-lines">${lines}</div>
@@ -2083,13 +2366,13 @@
                             </div>`;
                 }
             }
-            document.getElementById('modal-body').innerHTML = html;
-        }
 
-        function toggleTrans() {
-            showTrans = !showTrans;
-            const song = SONGS.find(s => s.id === currentSongId);
-            if (song) renderModalBody(song);
+            document.getElementById('modal-body').innerHTML = html;
+
+            // Re-apply active state to layout toggles
+            document.querySelectorAll('.layout-toggle-btn').forEach(b => {
+                b.classList.toggle('active', b.dataset.layout === lyricsLayout);
+            });
         }
 
         function closeModal() {
@@ -2208,6 +2491,9 @@
         // 15. START
         // ============================================================
         document.documentElement.dataset.lang = 'te';
+        // Set initial volume
+        volumeSlider.value = 0.8;
+        audioEl.volume = 0.8;
         loadSongsFromFirebase();
     </script>
 </body>
