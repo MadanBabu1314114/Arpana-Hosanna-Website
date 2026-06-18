@@ -1,0 +1,1939 @@
+<!DOCTYPE html>
+<html lang="te" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arpana Hosanna</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Telugu:wght@300;400;600;700&family=Noto+Sans+Telugu:wght@300;400;600&family=Cinzel:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    <!-- Firebase SDK (v9 compat) -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+
+    <style>
+        /* ═══ THEME TOKENS ═══ */
+        :root {
+            --bg: #080510;
+            --bg2: #0f0b1a;
+            --surface: #13101e;
+            --surface2: #1c1730;
+            --surface3: #251e3a;
+            --border: #2a2040;
+            --border2: #3d3060;
+            --gold: #d4a843;
+            --gold2: #f0c96a;
+            --gold3: #fde68a;
+            --accent: #7c3aed;
+            --accent2: #a855f7;
+            --accent3: #c084fc;
+            --red: #dc2626;
+            --green: #10b981;
+            --text: #f0ecfa;
+            --text2: #c4b8e0;
+            --muted: #6b5f88;
+            --glow: rgba(124, 58, 237, 0.25);
+            --glow-gold: rgba(212, 168, 67, 0.2);
+            --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        [data-theme="light"] {
+            --bg: #f8f5ff;
+            --bg2: #f0ebff;
+            --surface: #ffffff;
+            --surface2: #f3eeff;
+            --surface3: #e8dfff;
+            --border: #d8cff0;
+            --border2: #b8a8e0;
+            --text: #1a1430;
+            --text2: #3d3060;
+            --muted: #7060a0;
+            --glow: rgba(124, 58, 237, 0.1);
+            --glow-gold: rgba(212, 168, 67, 0.15);
+        }
+
+        /* ═══ RESET & BASE ═══ */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        html {
+            scroll-behavior: smooth;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            overflow-x: hidden;
+            transition: background var(--transition), color var(--transition);
+        }
+
+        /* ═══ PARTICLE CANVAS ═══ */
+        #particles {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.6;
+        }
+
+        /* ═══ MAGIC CIRCLE ═══ */
+        .magic-circle {
+            position: fixed;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.04;
+            animation: magicSpin 60s linear infinite;
+        }
+        @keyframes magicSpin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* ═══ HEADER ═══ */
+        header {
+            background: rgba(8, 5, 16, 0.85);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            padding: 0 24px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        [data-theme="light"] header {
+            background: rgba(248, 245, 255, 0.9);
+        }
+        .header-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 10px 0;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .logo-img {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            object-fit: cover;
+            border: 1px solid var(--border2);
+            box-shadow: 0 0 12px var(--glow);
+        }
+        .logo-text {
+            font-family: 'Cinzel', serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--gold2);
+            letter-spacing: 0.05em;
+            line-height: 1.1;
+        }
+        .logo-sub {
+            font-size: 0.6rem;
+            color: var(--muted);
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+        }
+        .header-center {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+        }
+        .lang-toggle {
+            display: flex;
+            background: var(--surface2);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 3px;
+            gap: 2px;
+        }
+        .lang-btn {
+            padding: 5px 14px;
+            border-radius: 16px;
+            border: none;
+            cursor: pointer;
+            font-size: 0.72rem;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            transition: all 0.2s;
+            background: transparent;
+            color: var(--muted);
+        }
+        .lang-btn.active {
+            background: linear-gradient(135deg, var(--accent), var(--accent2));
+            color: #fff;
+            box-shadow: 0 2px 12px var(--glow);
+        }
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-left: auto;
+        }
+        .theme-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border: 1px solid var(--border);
+            background: var(--surface2);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            transition: all 0.2s;
+            color: var(--text);
+        }
+        .theme-btn:hover {
+            border-color: var(--accent2);
+            box-shadow: 0 0 12px var(--glow);
+        }
+        .stat-pill {
+            background: var(--surface2);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 5px 12px;
+            font-size: 0.7rem;
+            color: var(--muted);
+            white-space: nowrap;
+        }
+        .stat-pill span {
+            color: var(--gold2);
+            font-weight: 600;
+        }
+
+        /* ═══ HERO ═══ */
+        .hero {
+            position: relative;
+            overflow: hidden;
+            padding: 60px 24px 48px;
+            text-align: center;
+            background: radial-gradient(ellipse 100% 80% at 50% 0%, rgba(124, 58, 237, 0.15) 0%, transparent 70%);
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%237c3aed' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            pointer-events: none;
+        }
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: var(--surface2);
+            border: 1px solid var(--border2);
+            border-radius: 20px;
+            padding: 5px 14px;
+            font-size: 0.68rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 16px;
+            animation: fadeSlideUp 0.6s ease both;
+        }
+        @keyframes fadeSlideUp {
+            from {
+                opacity: 0;
+                transform: translateY(16px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .hero-logo-img {
+            width: 72px;
+            height: 72px;
+            border-radius: 18px;
+            object-fit: cover;
+            border: 2px solid var(--border2);
+            box-shadow: 0 0 30px var(--glow), 0 0 60px rgba(124, 58, 237, 0.1);
+            margin: 0 auto 16px;
+            display: block;
+            animation: fadeSlideUp 0.5s ease both;
+        }
+        .hero-title {
+            font-family: 'Cinzel', serif;
+            font-size: clamp(1.8rem, 5vw, 3rem);
+            font-weight: 700;
+            color: var(--gold2);
+            letter-spacing: 0.05em;
+            line-height: 1.2;
+            margin-bottom: 4px;
+            animation: fadeSlideUp 0.7s ease 0.1s both;
+            text-shadow: 0 0 40px var(--glow-gold);
+        }
+        .hero-subtitle {
+            font-family: 'Noto Serif Telugu', serif;
+            font-size: clamp(1.1rem, 3vw, 1.6rem);
+            color: var(--text2);
+            margin-bottom: 8px;
+            animation: fadeSlideUp 0.7s ease 0.2s both;
+        }
+        .hero-desc {
+            font-size: 0.82rem;
+            color: var(--muted);
+            animation: fadeSlideUp 0.7s ease 0.3s both;
+        }
+        .hero-divider {
+            width: 80px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--gold), transparent);
+            margin: 20px auto;
+            animation: fadeSlideUp 0.7s ease 0.4s both;
+        }
+
+        /* ═══ SEARCH & CONTROLS ═══ */
+        .controls {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            animation: fadeSlideUp 0.8s ease 0.5s both;
+        }
+        .search-wrap {
+            position: relative;
+        }
+        .search-icon {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--muted);
+            pointer-events: none;
+        }
+        #search {
+            width: 100%;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 14px 16px 14px 46px;
+            color: var(--text);
+            font-size: 0.95rem;
+            outline: none;
+            transition: all 0.2s;
+            font-family: 'Inter', sans-serif;
+        }
+        #search:focus {
+            border-color: var(--accent2);
+            box-shadow: 0 0 0 3px var(--glow);
+        }
+        #search::placeholder {
+            color: var(--muted);
+        }
+        .filter-row {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        .filter-btn {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 6px 14px;
+            color: var(--muted);
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            white-space: nowrap;
+            font-family: 'Inter', sans-serif;
+        }
+        .filter-btn:hover {
+            border-color: var(--accent2);
+            color: var(--text);
+        }
+        .filter-btn.active {
+            background: linear-gradient(135deg, rgba(124, 58, 237, 0.3), rgba(168, 85, 247, 0.2));
+            border-color: var(--accent2);
+            color: var(--accent3);
+        }
+        .sort-select {
+            margin-left: auto;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 6px 14px;
+            color: var(--muted);
+            font-size: 0.75rem;
+            cursor: pointer;
+            outline: none;
+            font-family: 'Inter', sans-serif;
+        }
+
+        /* ═══ LETTER FILTER ═══ */
+        .letter-filter-wrap {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        .letter-filter-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 8px;
+        }
+        .letter-filter-title {
+            font-size: 0.68rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--muted);
+        }
+        .letter-filter-clear {
+            font-size: 0.68rem;
+            color: var(--accent3);
+            cursor: pointer;
+            background: none;
+            border: none;
+            padding: 0;
+            text-decoration: underline;
+            text-underline-offset: 3px;
+            display: none;
+        }
+        .letter-filter-clear.visible {
+            display: inline;
+        }
+        .letters-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px;
+        }
+        .letter-btn {
+            min-width: 32px;
+            height: 32px;
+            padding: 0 6px;
+            border-radius: 8px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            color: var(--muted);
+            font-size: 0.78rem;
+            cursor: pointer;
+            transition: all 0.15s;
+            font-family: 'Noto Sans Telugu', 'Inter', sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .letter-btn:hover {
+            border-color: var(--gold);
+            color: var(--gold);
+        }
+        .letter-btn.active {
+            background: linear-gradient(135deg, rgba(212, 168, 67, 0.2), rgba(240, 201, 106, 0.1));
+            border-color: var(--gold);
+            color: var(--gold2);
+        }
+        .letter-btn.disabled {
+            opacity: 0.25;
+            pointer-events: none;
+        }
+
+        /* ═══ RESULTS BAR ═══ */
+        .results-bar {
+            max-width: 1200px;
+            margin: 14px auto 0;
+            padding: 0 20px;
+            font-size: 0.75rem;
+            color: var(--muted);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .results-count {
+            color: var(--gold2);
+            font-weight: 600;
+        }
+        .loading-indicator {
+            display: none;
+            font-size: 0.75rem;
+            color: var(--gold);
+            animation: pulse 1.2s infinite;
+        }
+        .loading-indicator.active {
+            display: inline-block;
+        }
+        @keyframes pulse {
+            0%,
+            100% {
+                opacity: 0.4;
+            }
+            50% {
+                opacity: 1;
+            }
+        }
+
+        /* ═══ SONGS GRID ═══ */
+        .songs-grid {
+            max-width: 1200px;
+            margin: 12px auto 60px;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+            gap: 10px;
+        }
+
+        /* ═══ SONG CARD ═══ */
+        .song-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 16px 18px;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            animation: cardIn 0.4s ease both;
+        }
+        @keyframes cardIn {
+            from {
+                opacity: 0;
+                transform: translateY(12px) scale(0.98);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+        .song-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--gold), var(--accent2));
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+        .song-card::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse at var(--mx, 50%) var(--my, 50%), rgba(124, 58, 237, 0.08) 0%, transparent 60%);
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+        }
+        .song-card:hover {
+            border-color: var(--border2);
+            background: var(--surface2);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3), 0 0 0 1px var(--border2);
+        }
+        .song-card:hover::before {
+            opacity: 1;
+        }
+        .song-card:hover::after {
+            opacity: 1;
+        }
+        .song-num {
+            font-size: 0.6rem;
+            color: var(--muted);
+            margin-bottom: 3px;
+            font-variant-numeric: tabular-nums;
+            letter-spacing: 0.05em;
+        }
+        .song-title-primary {
+            font-family: 'Noto Serif Telugu', serif;
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: var(--text);
+            line-height: 1.35;
+            margin-bottom: 2px;
+        }
+        .song-title-secondary {
+            font-size: 0.7rem;
+            color: var(--muted);
+            margin-bottom: 8px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        [data-lang="en"] .song-title-primary {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.92rem;
+        }
+        [data-lang="en"] .song-title-secondary {
+            font-family: 'Noto Sans Telugu', sans-serif;
+            font-size: 0.85rem;
+        }
+        .song-preview {
+            font-family: 'Noto Sans Telugu', sans-serif;
+            font-size: 0.75rem;
+            color: var(--muted);
+            margin-bottom: 10px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            font-style: italic;
+        }
+        [data-lang="en"] .song-preview {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.72rem;
+        }
+        .song-meta {
+            display: flex;
+            gap: 5px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        .tag {
+            font-size: 0.6rem;
+            padding: 2px 8px;
+            border-radius: 8px;
+            font-weight: 500;
+            letter-spacing: 0.02em;
+        }
+        .tag-scale {
+            background: rgba(212, 168, 67, 0.12);
+            color: var(--gold);
+            border: 1px solid rgba(212, 168, 67, 0.2);
+        }
+        .tag-new {
+            background: rgba(124, 58, 237, 0.2);
+            color: var(--accent3);
+            border: 1px solid rgba(168, 85, 247, 0.3);
+        }
+        .tag-cat {
+            background: rgba(255, 255, 255, 0.04);
+            color: var(--muted);
+            border: 1px solid var(--border);
+        }
+        .song-links {
+            margin-left: auto;
+            display: flex;
+            gap: 5px;
+        }
+        .icon-btn {
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--muted);
+            text-decoration: none;
+            transition: all 0.15s;
+            flex-shrink: 0;
+        }
+        .icon-btn:hover {
+            background: var(--glow);
+            border-color: var(--accent2);
+            color: var(--accent3);
+        }
+
+        /* ═══ NOW PLAYING BAR ═══ */
+        .now-playing {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 200;
+            background: rgba(13, 9, 22, 0.95);
+            backdrop-filter: blur(20px);
+            border-top: 1px solid var(--border2);
+            padding: 10px 20px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            transform: translateY(100%);
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .now-playing.visible {
+            transform: translateY(0);
+        }
+        [data-theme="light"] .now-playing {
+            background: rgba(248, 245, 255, 0.97);
+        }
+        .np-info {
+            flex: 1;
+            min-width: 0;
+        }
+        .np-title {
+            font-size: 0.78rem;
+            font-family: 'Noto Serif Telugu', serif;
+            color: var(--text);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .np-sub {
+            font-size: 0.65rem;
+            color: var(--muted);
+        }
+        .np-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .np-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: var(--surface2);
+            border: 1px solid var(--border);
+            color: var(--text2);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.15s;
+            font-size: 0.8rem;
+        }
+        .np-btn:hover {
+            border-color: var(--accent2);
+            color: var(--accent3);
+        }
+        .np-btn.play {
+            background: linear-gradient(135deg, var(--accent), var(--accent2));
+            border-color: transparent;
+            color: #fff;
+            width: 38px;
+            height: 38px;
+        }
+        .np-btn.play:hover {
+            box-shadow: 0 0 16px var(--glow);
+        }
+        .np-progress-wrap {
+            flex: 2;
+            max-width: 300px;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        .np-progress {
+            height: 3px;
+            background: var(--surface3);
+            border-radius: 2px;
+            cursor: pointer;
+            position: relative;
+        }
+        .np-progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent), var(--gold));
+            border-radius: 2px;
+            transition: width 0.1s;
+        }
+        .np-time {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.6rem;
+            color: var(--muted);
+        }
+        .np-close {
+            color: var(--muted);
+            cursor: pointer;
+            font-size: 0.9rem;
+            padding: 4px;
+            transition: color 0.15s;
+        }
+        .np-close:hover {
+            color: var(--text);
+        }
+        audio#audio-player {
+            display: none;
+        }
+
+        /* ═══ MODAL ═══ */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 300;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(8px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.25s;
+        }
+        .modal-overlay.open {
+            opacity: 1;
+            pointer-events: all;
+        }
+        .modal {
+            background: var(--surface);
+            border: 1px solid var(--border2);
+            border-radius: 20px;
+            max-width: 780px;
+            width: 100%;
+            max-height: 92vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            transform: translateY(24px) scale(0.97);
+            transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 24px 80px rgba(0, 0, 0, 0.5), 0 0 0 1px var(--border2), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+        }
+        .modal-overlay.open .modal {
+            transform: translateY(0) scale(1);
+        }
+        .modal-header {
+            padding: 22px 24px 18px;
+            border-bottom: 1px solid var(--border);
+            position: relative;
+            background: linear-gradient(180deg, var(--surface2), var(--surface));
+        }
+        .modal-num {
+            font-size: 0.62rem;
+            color: var(--gold);
+            letter-spacing: 0.1em;
+            margin-bottom: 3px;
+        }
+        .modal-title-primary {
+            font-family: 'Noto Serif Telugu', serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text);
+            line-height: 1.3;
+            margin-bottom: 3px;
+        }
+        .modal-title-secondary {
+            font-size: 0.8rem;
+            color: var(--muted);
+            margin-bottom: 14px;
+        }
+        [data-lang="en"] .modal-title-primary {
+            font-family: 'Inter', sans-serif;
+            font-size: 1.3rem;
+        }
+        [data-lang="en"] .modal-title-secondary {
+            font-family: 'Noto Serif Telugu', serif;
+            font-size: 1rem;
+        }
+        .modal-meta {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+        .modal-close {
+            position: absolute;
+            top: 18px;
+            right: 18px;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid var(--border);
+            color: var(--muted);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+            transition: all 0.15s;
+        }
+        .modal-close:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text);
+        }
+
+        /* ═══ VIDEO PLAYER ═══ */
+        .video-container {
+            position: relative;
+            width: 100%;
+            padding-top: 56.25%;
+            background: #000;
+            border-radius: 0;
+        }
+        .video-container iframe {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        .video-wrap {
+            border-bottom: 1px solid var(--border);
+        }
+
+        /* ═══ MODAL BODY — IMPROVED LYRICS LAYOUT ═══ */
+        .modal-body {
+            overflow-y: auto;
+            padding: 20px 24px;
+            flex: 1;
+        }
+
+        /* toggle button */
+        .trans-toggle {
+            font-size: 0.7rem;
+            color: var(--accent3);
+            cursor: pointer;
+            background: none;
+            border: none;
+            padding: 0;
+            margin-bottom: 14px;
+            text-decoration: underline;
+            text-underline-offset: 3px;
+            font-family: 'Inter', sans-serif;
+        }
+
+        /* ── CHORUS BLOCK ── */
+        .section-block.chorus-block {
+            margin-bottom: 28px;
+            background: rgba(212, 168, 67, 0.05);
+            border-radius: 14px;
+            padding: 16px 18px;
+            border: 1px solid rgba(212, 168, 67, 0.12);
+        }
+
+        .section-label.chorus {
+            font-size: 0.6rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--gold);
+            font-weight: 600;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .section-label.chorus::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(90deg, var(--gold), transparent);
+            opacity: 0.3;
+        }
+
+        /* ── VERSE BLOCK ── */
+        .section-block.verse-block {
+            margin-bottom: 24px;
+            display: flex;
+            gap: 14px;
+            align-items: flex-start;
+        }
+
+        /* verse number badge */
+        .verse-num-badge {
+            flex-shrink: 0;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: rgba(124, 58, 237, 0.12);
+            border: 1.5px solid var(--accent2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            font-weight: 700;
+            color: var(--accent2);
+            margin-top: 2px;
+            font-family: 'Inter', sans-serif;
+        }
+
+        /* verse content wrapper */
+        .verse-content {
+            flex: 1;
+            min-width: 0;
+        }
+
+        /* ── LYRICS LINES ── */
+        .lyric-lines {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .lyric-line {
+            padding: 2px 0;
+        }
+
+        .line-tel {
+            font-family: 'Noto Serif Telugu', serif;
+            font-size: 1rem;
+            color: var(--text);
+            line-height: 1.65;
+        }
+
+        .line-trans {
+            font-size: 0.73rem;
+            color: var(--muted);
+            line-height: 1.4;
+            margin-top: 1px;
+            font-style: italic;
+            padding-left: 4px;
+            border-left: 2px solid rgba(124, 58, 237, 0.15);
+        }
+
+        /* refrain line inside chorus */
+        .refrain-line .line-tel {
+            color: var(--gold2);
+            font-weight: 600;
+            text-shadow: 0 0 20px rgba(212, 168, 67, 0.15);
+        }
+        .refrain-line .line-trans {
+            color: var(--gold);
+            border-left-color: rgba(212, 168, 67, 0.3);
+        }
+
+        /* language override for English mode */
+        [data-lang="en"] .line-tel {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.88rem;
+            color: var(--text2);
+        }
+        [data-lang="en"] .line-trans {
+            font-family: 'Noto Serif Telugu', serif;
+            font-size: 0.9rem;
+            color: var(--text);
+            font-style: normal;
+            border-left-color: rgba(168, 85, 247, 0.2);
+        }
+
+        /* ── REFRAIN BOX (legacy fallback) ── */
+        .refrain-box {
+            background: rgba(212, 168, 67, 0.07);
+            border: 1px solid rgba(212, 168, 67, 0.18);
+            border-radius: 10px;
+            padding: 12px 16px;
+            margin-bottom: 18px;
+        }
+        .refrain-label {
+            font-size: 0.58rem;
+            color: var(--gold);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-bottom: 6px;
+        }
+        .refrain-tel {
+            font-family: 'Noto Serif Telugu', serif;
+            font-size: 1rem;
+            color: var(--text);
+            font-weight: 600;
+        }
+        .refrain-trans {
+            font-size: 0.75rem;
+            color: var(--muted);
+            margin-top: 2px;
+        }
+
+        /* ── MODAL ACTIONS ── */
+        .modal-actions {
+            padding: 14px 24px;
+            border-top: 1px solid var(--border);
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 16px;
+            border-radius: 10px;
+            font-size: 0.78rem;
+            font-weight: 500;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: 'Inter', sans-serif;
+        }
+        .btn-audio {
+            background: linear-gradient(135deg, var(--accent), var(--accent2));
+            color: #fff;
+            box-shadow: 0 2px 12px var(--glow);
+        }
+        .btn-audio:hover {
+            box-shadow: 0 4px 20px var(--glow);
+            transform: translateY(-1px);
+        }
+        .btn-video {
+            background: var(--surface2);
+            border: 1px solid var(--border2);
+            color: var(--text2);
+        }
+        .btn-video:hover {
+            border-color: var(--gold);
+            color: var(--gold);
+        }
+        .btn-toggle-video {
+            background: var(--surface2);
+            border: 1px solid var(--border);
+            color: var(--muted);
+            font-size: 0.72rem;
+        }
+        .btn-toggle-video.active {
+            border-color: var(--accent2);
+            color: var(--accent3);
+            background: rgba(124, 58, 237, 0.1);
+        }
+
+        /* ═══ EMPTY ═══ */
+        .empty {
+            text-align: center;
+            padding: 80px 24px;
+            color: var(--muted);
+        }
+        .empty-icon {
+            font-size: 2.5rem;
+            margin-bottom: 12px;
+            opacity: 0.4;
+        }
+
+        /* ═══ SCROLLBAR ═══ */
+        ::-webkit-scrollbar {
+            width: 4px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--border2);
+            border-radius: 3px;
+        }
+
+        /* ═══ ANIMATIONS ═══ */
+        .rune-flash {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 500;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+        }
+        .rune-flash.flash {
+            animation: runeFlash 0.5s ease forwards;
+        }
+        @keyframes runeFlash {
+            0% {
+                opacity: 0;
+            }
+            20% {
+                opacity: 0.15;
+            }
+            100% {
+                opacity: 0;
+            }
+        }
+        .card-particles {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            overflow: hidden;
+            border-radius: 14px;
+        }
+        .sparkle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            background: var(--gold2);
+            animation: sparklePop 0.6s ease forwards;
+            pointer-events: none;
+        }
+        @keyframes sparklePop {
+            0% {
+                transform: scale(0) translate(0, 0);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(1) translate(var(--tx), var(--ty));
+                opacity: 0;
+            }
+        }
+
+        /* ═══ PAGE TRANSITION ═══ */
+        .page-wipe {
+            position: fixed;
+            inset: 0;
+            background: var(--accent);
+            z-index: 1000;
+            transform: scaleX(0);
+            transform-origin: left;
+            pointer-events: none;
+        }
+        .page-wipe.in {
+            animation: wipeIn 0.3s ease forwards;
+        }
+        .page-wipe.out {
+            animation: wipeOut 0.3s ease 0.3s forwards;
+        }
+        @keyframes wipeIn {
+            to {
+                transform: scaleX(1);
+            }
+        }
+        @keyframes wipeOut {
+            from {
+                transform: scaleX(1);
+                transform-origin: right;
+            }
+            to {
+                transform: scaleX(0);
+                transform-origin: right;
+            }
+        }
+
+        /* ═══ RESPONSIVE ═══ */
+        @media(max-width:600px) {
+            .songs-grid {
+                grid-template-columns: 1fr;
+            }
+            .header-center {
+                display: none;
+            }
+            .stat-pill {
+                display: none;
+            }
+            .hero {
+                padding: 32px 16px 28px;
+            }
+            .modal {
+                border-radius: 20px 20px 0 0;
+                max-height: 92vh;
+                align-self: flex-end;
+            }
+            .modal-overlay {
+                align-items: flex-end;
+                padding: 0;
+            }
+            .np-progress-wrap {
+                display: none;
+            }
+            .section-block.verse-block {
+                gap: 10px;
+            }
+            .verse-num-badge {
+                width: 24px;
+                height: 24px;
+                font-size: 0.6rem;
+            }
+            .line-tel {
+                font-size: 0.9rem;
+            }
+        }
+
+        /* ═══ LIGHT THEME OVERRIDES ═══ */
+        [data-theme="light"] .song-card {
+            background: var(--surface);
+            border-color: var(--border);
+        }
+        [data-theme="light"] .song-card:hover {
+            background: var(--surface2);
+        }
+        [data-theme="light"] #search {
+            background: var(--surface);
+            color: var(--text);
+        }
+        [data-theme="light"] .filter-btn {
+            background: var(--surface);
+            color: var(--muted);
+        }
+        [data-theme="light"] .letter-btn {
+            background: var(--surface);
+            color: var(--muted);
+        }
+        [data-theme="light"] .modal {
+            background: var(--surface);
+        }
+        [data-theme="light"] .modal-header {
+            background: linear-gradient(180deg, var(--surface2), var(--surface));
+        }
+
+        /* ═══ GLOW PULSE on new songs ═══ */
+        .song-card.is-new::after {
+            content: '';
+            position: absolute;
+            inset: -1px;
+            border-radius: 14px;
+            border: 1px solid var(--accent2);
+            animation: glowPulse 2s ease-in-out infinite;
+            pointer-events: none;
+        }
+        @keyframes glowPulse {
+            0%,
+            100% {
+                box-shadow: 0 0 8px var(--glow);
+            }
+            50% {
+                box-shadow: 0 0 20px var(--glow);
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Magic BG -->
+    <canvas id="particles"></canvas>
+    <svg class="magic-circle" style="width:600px;height:600px;left:calc(50% - 300px);top:calc(50% - 300px)" viewBox="0 0 600 600">
+        <circle cx="300" cy="300" r="280" stroke="#7c3aed" stroke-width="0.5" fill="none" stroke-dasharray="8 4"/>
+        <circle cx="300" cy="300" r="240" stroke="#d4a843" stroke-width="0.3" fill="none" stroke-dasharray="4 8"/>
+        <polygon points="300,40 540,440 60,440" stroke="#7c3aed" stroke-width="0.4" fill="none"/>
+        <polygon points="300,560 60,160 540,160" stroke="#d4a843" stroke-width="0.3" fill="none"/>
+        <circle cx="300" cy="300" r="8" fill="#7c3aed" opacity="0.3"/>
+    </svg>
+
+    <div class="page-wipe" id="page-wipe"></div>
+    <div class="rune-flash" id="rune-flash">
+        <svg width="300" height="300" viewBox="0 0 300 300" fill="none">
+            <polygon points="150,10 280,230 20,230" stroke="#7c3aed" stroke-width="2" fill="none"/>
+            <circle cx="150" cy="150" r="100" stroke="#d4a843" stroke-width="1" fill="none"/>
+            <text x="150" y="155" text-anchor="middle" font-size="40" fill="#7c3aed" font-family="serif">✦</text>
+        </svg>
+    </div>
+
+    <header>
+        <div class="header-inner">
+            <div class="logo">
+                <img class="logo-img" src="https://play-lh.googleusercontent.com/nammmmboziAWEV2iwJSa37wTDDFEC-IcPpp5N2x-6R7G9MgPszHHjyDGzCmojn0vEguhmBb1BZ08lMmSRqrDMSE=w240-h480" alt="Arpana Hosanna Logo" onerror="this.style.display='none'">
+                <div>
+                    <div class="logo-text">Arpana Hosanna</div>
+                    <div class="logo-sub">Hosanna Ministers</div>
+                </div>
+            </div>
+            <div class="header-center">
+                <div class="lang-toggle">
+                    <button class="lang-btn active" data-lang="te" onclick="setLang('te')">తెలుగు</button>
+                    <button class="lang-btn" data-lang="en" onclick="setLang('en')">English</button>
+                </div>
+            </div>
+            <div class="header-right">
+                <div class="stat-pill"><span id="stat-count">0</span> Songs</div>
+                <button class="theme-btn" id="theme-btn" onclick="toggleTheme()" title="Toggle theme">🌙</button>
+            </div>
+        </div>
+    </header>
+
+    <div class="hero">
+        <img class="hero-logo-img" src="https://play-lh.googleusercontent.com/nammmmboziAWEV2iwJSa37wTDDFEC-IcPpp5N2x-6R7G9MgPszHHjyDGzCmojn0vEguhmBb1BZ08lMmSRqrDMSE=w240-h480" alt="Logo" onerror="this.style.display='none'">
+        <div class="hero-badge">✦ Telugu Christian Worship ✦</div>
+        <h1 class="hero-title">Arpana Hosanna</h1>
+        <p class="hero-subtitle">ఆరాధన పాటల సంగ్రహం</p>
+        <p class="hero-desc">Hosanna Ministers · Telugu · <span id="hero-count">0</span> Songs</p>
+        <div class="hero-divider"></div>
+    </div>
+
+    <div class="controls">
+        <div class="search-wrap">
+            <svg class="search-icon" width="18" height="18" viewBox="0 0 18 18" fill="none">
+                <circle cx="7.5" cy="7.5" r="5.5" stroke="currentColor" stroke-width="1.5"/>
+                <path d="M12 12L16 16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+            <input id="search" type="search" placeholder="Search songs in Telugu or English…" autocomplete="off">
+        </div>
+        <div class="filter-row">
+            <button class="filter-btn active" data-filter="all">All Songs</button>
+            <button class="filter-btn" data-filter="new">✦ New Songs</button>
+            <button class="filter-btn" data-filter="praise">Praise</button>
+            <button class="filter-btn" data-filter="goodfriday">Good Friday</button>
+            <button class="filter-btn" data-filter="secondcoming">Second Coming</button>
+            <button class="filter-btn" data-filter="prayer">Prayer</button>
+            <select class="sort-select" id="sort-select">
+                <option value="id">Sort by Number</option>
+                <option value="primary">Sort A–Z (Primary)</option>
+                <option value="secondary">Sort A–Z (Secondary)</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="letter-filter-wrap" id="letter-filter-wrap" style="margin-top:10px">
+        <div class="letter-filter-header">
+            <span class="letter-filter-title" id="letter-filter-title">Filter by Letter</span>
+            <button class="letter-filter-clear" id="letter-clear-btn" onclick="clearLetter()">Clear</button>
+        </div>
+        <div class="letters-row" id="letters-row"></div>
+    </div>
+
+    <div class="results-bar">
+        <span id="results-bar">Showing <span class="results-count" id="results-count">0</span> songs</span>
+        <span class="loading-indicator" id="loading-indicator">⏳ Loading…</span>
+    </div>
+
+    <div class="songs-grid" id="songs-grid"></div>
+
+    <!-- Modal -->
+    <div class="modal-overlay" id="modal-overlay">
+        <div class="modal" id="modal">
+            <div class="modal-header">
+                <div class="modal-num" id="modal-num"></div>
+                <div class="modal-title-primary" id="modal-title-primary"></div>
+                <div class="modal-title-secondary" id="modal-title-secondary"></div>
+                <div class="modal-meta" id="modal-meta"></div>
+                <button class="modal-close" id="modal-close">✕</button>
+            </div>
+            <div class="video-wrap" id="video-wrap" style="display:none">
+                <div class="video-container"><iframe id="yt-iframe" allowfullscreen allow="autoplay; encrypted-media"></iframe></div>
+            </div>
+            <div class="modal-body" id="modal-body"></div>
+            <div class="modal-actions" id="modal-actions"></div>
+        </div>
+    </div>
+
+    <!-- Now Playing Bar -->
+    <div class="now-playing" id="now-playing">
+        <div class="np-info">
+            <div class="np-title" id="np-title">—</div>
+            <div class="np-sub" id="np-sub">Hosanna Ministers</div>
+        </div>
+        <div class="np-controls">
+            <button class="np-btn" onclick="seekAudio(-10)">⟨10</button>
+            <button class="np-btn play" id="np-play-btn" onclick="togglePlay()">▶</button>
+            <button class="np-btn" onclick="seekAudio(10)">10⟩</button>
+        </div>
+        <div class="np-progress-wrap">
+            <div class="np-progress" id="np-progress" onclick="onProgressClick(event)">
+                <div class="np-progress-fill" id="np-progress-fill" style="width:0%"></div>
+            </div>
+            <div class="np-time"><span id="np-current">0:00</span><span id="np-total">0:00</span></div>
+        </div>
+        <span class="np-close" onclick="closeAudio()">✕</span>
+    </div>
+    <audio id="audio-player"></audio>
+
+    <script>
+        // ============================================================
+        // 1. FIREBASE CONFIG — REPLACE WITH YOUR OWN FROM FIREBASE CONSOLE
+        // ============================================================
+        const firebaseConfig = {
+            apiKey: "YOUR_API_KEY",
+            authDomain: "arpana-hosanna.firebaseapp.com",
+            databaseURL: "https://arpana-hosanna-default-rtdb.firebaseio.com",
+            projectId: "arpana-hosanna",
+            storageBucket: "arpana-hosanna.firebasestorage.app",
+            messagingSenderId: "YOUR_SENDER_ID",
+            appId: "YOUR_APP_ID"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+
+        // ============================================================
+        // 2. STATE
+        // ============================================================
+        let SONGS = []; // will be populated from Firebase
+        let lang = 'te';
+        let filter = 'all';
+        let sortBy = 'id';
+        let query = '';
+        let activeLetter = null;
+        let currentSongId = null;
+        let showTrans = true;
+        let videoShown = false;
+        const audioEl = document.getElementById('audio-player');
+        const nowPlaying = document.getElementById('now-playing');
+        let isLoading = true;
+
+        // ============================================================
+        // 3. HELPERS
+        // ============================================================
+        function padId(n) { return String(n).padStart(3, '0'); }
+
+        function ytId(url) {
+            if (!url) return null;
+            const m = url.match(/(?:youtu\.be\/|v=|embed\/)([A-Za-z0-9_-]{11})/);
+            return m ? m[1] : null;
+        }
+
+        function fmtTime(s) { s = Math.floor(s || 0); return Math.floor(s / 60) + ':' + (s % 60 < 10 ? '0' : '') + s % 60; }
+
+        // ============================================================
+        // 4. LANG SWITCH
+        // ============================================================
+        function setLang(l) {
+            lang = l;
+            document.documentElement.dataset.lang = l;
+            document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.dataset.lang === l));
+            document.getElementById('letter-filter-title').textContent = l === 'te' ? 'Filter by Telugu Letter' :
+                'Filter by English Letter';
+            renderLetters();
+            renderGrid();
+            runeFlash();
+        }
+
+        // ============================================================
+        // 5. THEME
+        // ============================================================
+        function toggleTheme() {
+            const isDark = document.documentElement.dataset.theme === 'dark';
+            document.documentElement.dataset.theme = isDark ? 'light' : 'dark';
+            document.getElementById('theme-btn').textContent = isDark ? '🌙' : '☀️';
+        }
+
+        // ============================================================
+        // 6. PARTICLE SYSTEM (unchanged)
+        // ============================================================
+        (function initParticles() {
+            const c = document.getElementById('particles');
+            const ctx = c.getContext('2d');
+            let w, h, particles = [];
+
+            function resize() { w = c.width = window.innerWidth;
+                h = c.height = window.innerHeight; }
+            resize();
+            window.addEventListener('resize', resize);
+
+            class Particle {
+                constructor() { this.reset();
+                    this.y = Math.random() * h; }
+                reset() { this.x = Math.random() * w;
+                    this.y = h + 10;
+                    this.vy = -(0.2 + Math.random() * 0.5);
+                    this.vx = (Math.random() - 0.5) * 0.3;
+                    this.r = Math.random() * 1.5 + 0.5;
+                    this.life = 1;
+                    this.type = Math.random() > 0.8 ? 'cross' : 'dot'; }
+                draw() {
+                    ctx.globalAlpha = this.life * 0.6;
+                    if (this.type === 'cross') { ctx.strokeStyle = '#d4a843';
+                        ctx.lineWidth = 0.8;
+                        ctx.beginPath();
+                        ctx.moveTo(this.x - 3, this.y);
+                        ctx.lineTo(this.x + 3, this.y);
+                        ctx.moveTo(this.x, this.y - 3);
+                        ctx.lineTo(this.x, this.y + 3);
+                        ctx.stroke(); } else { ctx.fillStyle = Math.random() > 0.5 ? '#7c3aed' : '#d4a843';
+                        ctx.beginPath();
+                        ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
+                        ctx.fill(); }
+                }
+                update() { this.x += this.vx;
+                    this.y += this.vy;
+                    this.life -= 0.003; if (this.life <= 0) this.reset(); }
+            }
+            for (let i = 0; i < 60; i++) particles.push(new Particle());
+
+            function loop() { ctx.clearRect(0, 0, w, h);
+                particles.forEach(p => { p.update();
+                    p.draw(); });
+                requestAnimationFrame(loop); }
+            loop();
+        })();
+
+        // ============================================================
+        // 7. RUNE FLASH
+        // ============================================================
+        function runeFlash() {
+            const el = document.getElementById('rune-flash');
+            el.classList.remove('flash');
+            void el.offsetWidth;
+            el.classList.add('flash');
+        }
+
+        // ============================================================
+        // 8. LETTER FILTER
+        // ============================================================
+        function renderLetters() {
+            const songs = getBaseSongs();
+            const usedLetters = new Set();
+            songs.forEach(s => {
+                const title = lang === 'te' ? s.tel : s.eng;
+                if (title && title[0]) usedLetters.add(title[0].toUpperCase());
+            });
+            // Get all possible letters from SONGS (once loaded)
+            const allLetters = [...new Set(SONGS.map(s => {
+                const t = lang === 'te' ? s.tel : s.eng;
+                return t && t[0] ? t[0].toUpperCase() : null;
+            }).filter(Boolean))].sort((a, b) => a.localeCompare(b, 'te'));
+
+            const row = document.getElementById('letters-row');
+            row.innerHTML = allLetters.map(l =>
+                `<button class="letter-btn${activeLetter===l?' active':''}${!usedLetters.has(l)?' disabled':''}" onclick="setLetter('${l}')">${l}</button>`
+            ).join('');
+        }
+
+        function setLetter(l) {
+            activeLetter = activeLetter === l ? null : l;
+            document.getElementById('letter-clear-btn').classList.toggle('visible', !!activeLetter);
+            renderLetters();
+            renderGrid();
+        }
+
+        function clearLetter() { activeLetter = null;
+            document.getElementById('letter-clear-btn').classList.remove('visible');
+            renderLetters();
+            renderGrid(); }
+
+        // ============================================================
+        // 9. FILTERING
+        // ============================================================
+        function getBaseSongs() {
+            let s = SONGS;
+            if (filter === 'new') s = s.filter(x => x.new);
+            else if (filter === 'praise') s = s.filter(x => x.cat && x.cat.includes('Praise'));
+            else if (filter === 'goodfriday') s = s.filter(x => x.cat && x.cat.toLowerCase().includes('good friday'));
+            else if (filter === 'secondcoming') s = s.filter(x => x.cat && x.cat.includes('Second Coming'));
+            else if (filter === 'prayer') s = s.filter(x => x.cat && x.cat.toLowerCase().includes('prayer'));
+            return s;
+        }
+
+        function filteredSongs() {
+            let s = getBaseSongs();
+            if (activeLetter) {
+                s = s.filter(x => {
+                    const t = lang === 'te' ? x.tel : x.eng;
+                    return t && t[0].toUpperCase() === activeLetter;
+                });
+            }
+            if (query.trim()) {
+                const q = query.trim().toLowerCase();
+                s = s.filter(x => x.tel.toLowerCase().includes(q) || x.eng.toLowerCase().includes(q) || (x.refrain &&
+                    x.refrain.transliteration && x.refrain.transliteration.toLowerCase().includes(q)));
+            }
+            if (sortBy === 'primary') s = [...s].sort((a, b) => (lang === 'te' ? a.tel : a.eng).localeCompare(lang ===
+                'te' ? b.tel : b.eng));
+            else if (sortBy === 'secondary') s = [...s].sort((a, b) => (lang === 'te' ? a.eng : a.tel).localeCompare(lang ===
+                'te' ? b.eng : b.tel));
+            else s = [...s].sort((a, b) => a.id - b.id);
+            return s;
+        }
+
+        // ============================================================
+        // 10. RENDER GRID
+        // ============================================================
+        function renderGrid() {
+            const songs = filteredSongs();
+            const grid = document.getElementById('songs-grid');
+            document.getElementById('results-count').textContent = songs.length;
+            if (!SONGS.length) {
+                grid.innerHTML =
+                    '<div class="empty" style="grid-column:1/-1"><div class="empty-icon">🕊</div><div>Loading songs from Firebase…</div></div>';
+                return;
+            }
+            if (!songs.length) {
+                grid.innerHTML =
+                    '<div class="empty" style="grid-column:1/-1"><div class="empty-icon">🕊</div><div>No songs found.</div></div>';
+                return;
+            }
+            grid.innerHTML = songs.map((s, i) => {
+                const primaryTitle = lang === 'te' ? s.tel : s.eng;
+                const secondaryTitle = lang === 'te' ? s.eng : s.tel;
+                const preview = lang === 'te' ?
+                    (s.sections && s.sections[0] && s.sections[0].telugu && s.sections[0].telugu[0]) || '' :
+                    (s.sections && s.sections[0] && s.sections[0].transliteration && s.sections[0].transliteration[
+                    0]) || '';
+                const audioBtn = s.audio ?
+                    `<a class="icon-btn" href="#" title="Play" onclick="event.preventDefault();event.stopPropagation();playAudio(${s.id})"><svg width="10" height="10" viewBox="0 0 10 10" fill="currentColor"><polygon points="2,1 9,5 2,9"/></svg></a>` :
+                    '';
+                const videoBtn = s.video ?
+                    `<a class="icon-btn" href="${s.video}" target="_blank" title="YouTube" onclick="event.stopPropagation()"><svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="0.5" y="1.5" width="9" height="7" rx="1.2"/><polygon points="3.5,3.5 7.5,5 3.5,6.5" fill="currentColor" stroke="none"/></svg></a>` :
+                    '';
+                return `<div class="song-card${s.new?' is-new':''}" onclick="openModal(${s.id})" style="animation-delay:${Math.min(i,30)*0.02}s">
+                        <div class="song-num">#${padId(s.id)}</div>
+                        <div class="song-title-primary">${primaryTitle}</div>
+                        <div class="song-title-secondary">${secondaryTitle}</div>
+                        ${preview?`<div class="song-preview">${preview}</div>`:''}
+                        <div class="song-meta">
+                            ${s.new?'<span class="tag tag-new">New</span>':''}
+                            ${s.scale?`<span class="tag tag-scale">${s.scale}</span>`:''}
+                            <div class="song-links">${audioBtn}${videoBtn}</div>
+                        </div>
+                    </div>`;
+            }).join('');
+
+            grid.querySelectorAll('.song-card').forEach(card => {
+                card.addEventListener('mousemove', e => {
+                    const r = card.getBoundingClientRect();
+                    card.style.setProperty('--mx', ((e.clientX - r.left) / r.width * 100) + '%');
+                    card.style.setProperty('--my', ((e.clientY - r.top) / r.height * 100) + '%');
+                });
+            });
+        }
+
+        // ============================================================
+        // 11. AUDIO PLAYER
+        // ============================================================
+        function playAudio(id) {
+            const song = SONGS.find(s => s.id === id);
+            if (!song || !song.audio) return;
+            currentSongId = id;
+            const primaryTitle = lang === 'te' ? song.tel : song.eng;
+            document.getElementById('np-title').textContent = primaryTitle;
+            document.getElementById('np-sub').textContent = song.scale ? `Key: ${song.scale}` : 'Hosanna Ministers';
+            audioEl.src = song.audio;
+            audioEl.play();
+            nowPlaying.classList.add('visible');
+            document.getElementById('np-play-btn').textContent = '⏸';
+            runeFlash();
+        }
+
+        function togglePlay() {
+            if (audioEl.paused) { audioEl.play();
+                document.getElementById('np-play-btn').textContent = '⏸'; } else { audioEl.pause();
+                document.getElementById('np-play-btn').textContent = '▶'; }
+        }
+
+        function seekAudio(s) { audioEl.currentTime = Math.max(0, audioEl.currentTime + s); }
+
+        function closeAudio() { audioEl.pause();
+            nowPlaying.classList.remove('visible'); }
+
+        audioEl.addEventListener('timeupdate', () => {
+            const pct = audioEl.duration ? audioEl.currentTime / audioEl.duration * 100 : 0;
+            document.getElementById('np-progress-fill').style.width = pct + '%';
+            document.getElementById('np-current').textContent = fmtTime(audioEl.currentTime);
+            document.getElementById('np-total').textContent = fmtTime(audioEl.duration);
+        });
+        audioEl.addEventListener('ended', () => { document.getElementById('np-play-btn').textContent = '▶'; });
+
+        function onProgressClick(e) {
+            const r = document.getElementById('np-progress').getBoundingClientRect();
+            audioEl.currentTime = ((e.clientX - r.left) / r.width) * audioEl.duration;
+        }
+
+        // ============================================================
+        // 12. MODAL
+        // ============================================================
+        function openModal(id) {
+            const song = SONGS.find(s => s.id === id);
+            if (!song) return;
+            currentSongId = id;
+            videoShown = false;
+            document.getElementById('modal-num').textContent = 'Song #' + padId(id);
+            const primary = lang === 'te' ? song.tel : song.eng;
+            const secondary = lang === 'te' ? song.eng : song.tel;
+            document.getElementById('modal-title-primary').textContent = primary;
+            document.getElementById('modal-title-secondary').textContent = secondary;
+            const tags = [];
+            if (song.new) tags.push('<span class="tag tag-new">New Song</span>');
+            if (song.scale) tags.push(`<span class="tag tag-scale">${song.scale}</span>`);
+            if (song.cat) tags.push(`<span class="tag tag-cat">${song.cat}</span>`);
+            document.getElementById('modal-meta').innerHTML = tags.join('');
+            document.getElementById('video-wrap').style.display = 'none';
+            document.getElementById('yt-iframe').src = '';
+            renderModalBody(song);
+            // Actions
+            const acts = [];
+            if (song.audio) acts.push(`<button class="btn btn-audio" onclick="playAudio(${id})">▶ Play Audio</button>`);
+            if (song.video) {
+                acts.push(`<a class="btn btn-video" href="${song.video}" target="_blank">▶ YouTube</a>`);
+                const vid = ytId(song.video);
+                if (vid) acts.push(
+                    `<button class="btn btn-toggle-video" id="toggle-video-btn" onclick="toggleVideo('${vid}')">📺 Embed Video</button>`
+                    );
+            }
+            document.getElementById('modal-actions').innerHTML = acts.join('');
+            document.getElementById('modal-overlay').classList.add('open');
+            document.body.style.overflow = 'hidden';
+            runeFlash();
+        }
+
+        function toggleVideo(vid) {
+            videoShown = !videoShown;
+            const wrap = document.getElementById('video-wrap');
+            const btn = document.getElementById('toggle-video-btn');
+            if (videoShown) {
+                document.getElementById('yt-iframe').src = `https://www.youtube.com/embed/${vid}?autoplay=1`;
+                wrap.style.display = 'block';
+                if (btn) btn.classList.add('active');
+                if (btn) btn.textContent = '✕ Hide Video';
+            } else {
+                document.getElementById('yt-iframe').src = '';
+                wrap.style.display = 'none';
+                if (btn) btn.classList.remove('active');
+                if (btn) btn.textContent = '📺 Embed Video';
+            }
+        }
+
+        function renderModalBody(song) {
+            let html = '';
+            html += `<button class="trans-toggle" onclick="toggleTrans()">${showTrans?'Hide':'Show'} transliteration</button>`;
+            if (song.refrain && song.refrain.telugu) {
+                const rtel = lang === 'te' ? song.refrain.telugu : song.refrain.transliteration || song.refrain.telugu;
+                const rsub = lang === 'te' ? (song.refrain.transliteration || '') : (song.refrain.telugu || '');
+                html +=
+                    `<div class="refrain-box"><div class="refrain-label">Refrain</div><div class="refrain-tel">${rtel}</div>${showTrans&&rsub?`<div class="refrain-trans">${rsub}</div>`:''}</div>`;
+            }
+            const sects = (song.sections || []).slice().sort((a, b) => {
+                const o = ['chorus', 'verse', 'bridge'];
+                const ai = o.indexOf(a.sectionType),
+                    bi = o.indexOf(b.sectionType);
+                return ai !== bi ? ai - bi : a.number - b.number;
+            });
+            let vNum = 0,
+                chShown = false;
+            for (const sec of sects) {
+                const t = sec.sectionType || 'verse';
+                let label = '';
+                let blockClass = 'section-block';
+                if (t === 'chorus') { if (chShown) continue;
+                    chShown = true;
+                    label = 'Chorus';
+                    blockClass += ' chorus-block'; } else if (t === 'verse') { vNum++;
+                    label = 'Verse ' + vNum;
+                    blockClass += ' verse-block'; } else { label = 'Bridge';
+                    blockClass += ' verse-block'; }
+                const telLines = sec.telugu || [];
+                const transLines = sec.transliteration || [];
+                const lines = telLines.map((line, i) => {
+                    const trans = transLines[i] || '';
+                    const primary = lang === 'te' ? line : trans;
+                    const secondary = lang === 'te' ? trans : line;
+                    const isRefrain = /^[|॥]/.test(line) || /^[|॥]/.test(trans);
+                    return `<div class="lyric-line${isRefrain?' refrain-line':''}"><div class="line-tel">${primary||line}</div>${showTrans&&secondary?`<div class="line-trans">${secondary}</div>`:''}</div>`;
+                }).join('');
+
+                if (t === 'chorus') {
+                    html += `<div class="${blockClass}">
+                                <div class="section-label chorus">${label}</div>
+                                <div class="lyric-lines">${lines}</div>
+                            </div>`;
+                } else {
+                    html += `<div class="${blockClass}">
+                                <div class="verse-num-badge">${vNum}</div>
+                                <div class="verse-content">
+                                    <div class="lyric-lines">${lines}</div>
+                                </div>
+                            </div>`;
+                }
+            }
+            document.getElementById('modal-body').innerHTML = html;
+        }
+
+        function toggleTrans() {
+            showTrans = !showTrans;
+            const song = SONGS.find(s => s.id === currentSongId);
+            if (song) renderModalBody(song);
+        }
+
+        function closeModal() {
+            document.getElementById('modal-overlay').classList.remove('open');
+            document.body.style.overflow = '';
+            document.getElementById('video-wrap').style.display = 'none';
+            document.getElementById('yt-iframe').src = '';
+            videoShown = false;
+        }
+
+        // ============================================================
+        // 13. FIREBASE DATA LOADING — with proper mapping
+        // ============================================================
+        function loadSongsFromFirebase() {
+            const loadingIndicator = document.getElementById('loading-indicator');
+            loadingIndicator.classList.add('active');
+
+            const songsRef = database.ref('songs');
+
+            songsRef.on('value', (snapshot) => {
+                const data = snapshot.val();
+                if (data) {
+                    // Convert object to array (keys are numeric strings)
+                    const rawSongs = Object.values(data);
+
+                    // Map each raw song to the expected format
+                    SONGS = rawSongs.map((raw) => {
+                        // Ensure each song has an id; fallback to index if missing
+                        const id = raw.id || (rawSongs.indexOf(raw) + 1);
+                        const titleTelugu = raw.title?.telugu || '';
+                        const titleEnglish = raw.title?.english || '';
+                        const meta = raw.metadata || {};
+                        return {
+                            id: id,
+                            tel: titleTelugu,
+                            eng: titleEnglish,
+                            cat: meta.category || '',
+                            scale: meta.scale || '',
+                            new: meta.isNewSong || false,
+                            audio: meta.audioLink || '',
+                            video: meta.videoLink || '',
+                            refrain: {
+                                telugu: meta.refrain?.telugu || '',
+                                transliteration: meta.refrain?.transliteration || ''
+                            },
+                            sections: (raw.sections || []).map(sec => ({
+                                sectionType: sec.sectionType || 'verse',
+                                number: sec.number || 1,
+                                telugu: sec.telugu || [],
+                                transliteration: sec.transliteration || []
+                            }))
+                        };
+                    });
+
+                    // Log first song to verify mapping
+                    console.log('✅ First song mapped:', SONGS[0]);
+
+                    updateUI();
+                    loadingIndicator.classList.remove('active');
+                    try { localStorage.setItem('songsCache', JSON.stringify(SONGS)); } catch(e) {}
+                    document.getElementById('hero-count').textContent = SONGS.length;
+                } else {
+                    // No data in Firebase, try cache
+                    loadFromCache();
+                }
+            }, (error) => {
+                console.error('Firebase read error:', error);
+                loadFromCache();
+                loadingIndicator.classList.remove('active');
+            });
+        }
+
+        function loadFromCache() {
+            try {
+                const cached = localStorage.getItem('songsCache');
+                if (cached) {
+                    SONGS = JSON.parse(cached);
+                    updateUI();
+                    document.getElementById('loading-indicator').classList.remove('active');
+                    document.getElementById('hero-count').textContent = SONGS.length;
+                } else {
+                    // No cache, show empty
+                    document.getElementById('loading-indicator').classList.remove('active');
+                    document.getElementById('hero-count').textContent = '0';
+                    renderGrid();
+                }
+            } catch (e) {
+                document.getElementById('loading-indicator').classList.remove('active');
+                document.getElementById('hero-count').textContent = '0';
+                renderGrid();
+            }
+        }
+
+        function updateUI() {
+            document.getElementById('stat-count').textContent = SONGS.length;
+            document.getElementById('hero-count').textContent = SONGS.length;
+            renderLetters();
+            renderGrid();
+        }
+
+        // ============================================================
+        // 14. EVENTS & INIT
+        // ============================================================
+        document.getElementById('search').addEventListener('input', e => { query = e.target.value;
+            renderGrid();
+            renderLetters(); });
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                filter = btn.dataset.filter;
+                activeLetter = null;
+                document.getElementById('letter-clear-btn').classList.remove('visible');
+                renderLetters();
+                renderGrid();
+            });
+        });
+        document.getElementById('sort-select').addEventListener('change', e => { sortBy = e.target.value;
+            renderGrid(); });
+        document.getElementById('modal-close').addEventListener('click', closeModal);
+        document.getElementById('modal-overlay').addEventListener('click', e => { if (e.target === document.getElementById(
+                'modal-overlay')) closeModal(); });
+        document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+        // ============================================================
+        // 15. START
+        // ============================================================
+        document.documentElement.dataset.lang = 'te';
+        loadSongsFromFirebase();
+    </script>
+</body>
+</html>
