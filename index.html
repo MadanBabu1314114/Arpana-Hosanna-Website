@@ -5,85 +5,167 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Arpana Hosanna</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Telugu:wght@300;400;600;700&family=Noto+Sans+Telugu:wght@300;400;600&family=Cinzel:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Telugu:wght@300;400;600;700&family=Noto+Sans+Telugu:wght@300;400;600&family=Cinzel:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
     <!-- Firebase SDK (v9 compat) -->
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 
     <style>
-        /* ═══ THEME TOKENS ═══ */
+        /* ═══ THEME TOKENS — Multi-Colored Glassmorphism ═══ */
         :root {
-            --bg: #080510;
-            --bg2: #0f0b1a;
-            --surface: #13101e;
-            --surface2: #1c1730;
-            --surface3: #251e3a;
-            --border: #2a2040;
-            --border2: #3d3060;
-            --gold: #d4a843;
-            --gold2: #f0c96a;
-            --gold3: #fde68a;
-            --accent: #7c3aed;
-            --accent2: #a855f7;
-            --accent3: #c084fc;
-            --red: #dc2626;
-            --green: #10b981;
-            --text: #f0ecfa;
-            --text2: #c4b8e0;
-            --muted: #6b5f88;
-            --glow: rgba(124, 58, 237, 0.25);
-            --glow-gold: rgba(212, 168, 67, 0.2);
-            --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            /* Glassmorphism base */
+            --glass-bg: rgba(255, 255, 255, 0.06);
+            --glass-border: rgba(255, 255, 255, 0.12);
+            --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            --glass-blur: blur(16px);
+
+            /* Dark theme defaults */
+            --bg-primary: #0a0618;
+            --bg-secondary: #110b24;
+            --bg-card: rgba(255, 255, 255, 0.05);
+            --text-primary: #f0ecfa;
+            --text-secondary: #c4b8e0;
+            --text-muted: #7a6a9e;
+            --border-color: rgba(255, 255, 255, 0.08);
+
+            /* Multi-color palette */
+            --color-purple: #7c3aed;
+            --color-purple-light: #a855f7;
+            --color-purple-glow: rgba(124, 58, 237, 0.3);
+            --color-gold: #d4a843;
+            --color-gold-light: #f0c96a;
+            --color-gold-glow: rgba(212, 168, 67, 0.25);
+            --color-teal: #14b8a6;
+            --color-teal-glow: rgba(20, 184, 166, 0.2);
+            --color-pink: #ec4899;
+            --color-pink-glow: rgba(236, 72, 153, 0.2);
+            --color-blue: #3b82f6;
+            --color-blue-glow: rgba(59, 130, 246, 0.2);
+
+            /* Gradients */
+            --gradient-hero: linear-gradient(135deg, rgba(124, 58, 237, 0.3) 0%, rgba(212, 168, 67, 0.15) 50%, rgba(236, 72, 153, 0.1) 100%);
+            --gradient-card: linear-gradient(135deg, rgba(124, 58, 237, 0.08), rgba(20, 184, 166, 0.05));
+            --gradient-glow: linear-gradient(135deg, var(--color-purple), var(--color-gold), var(--color-teal));
+
+            /* Transitions */
+            --transition-smooth: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-bounce: 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+
+            /* Sizes */
+            --radius-sm: 8px;
+            --radius-md: 16px;
+            --radius-lg: 24px;
+            --radius-xl: 32px;
         }
+
+        /* Light Theme */
         [data-theme="light"] {
-            --bg: #f8f5ff;
-            --bg2: #f0ebff;
-            --surface: #ffffff;
-            --surface2: #f3eeff;
-            --surface3: #e8dfff;
-            --border: #d8cff0;
-            --border2: #b8a8e0;
-            --text: #1a1430;
-            --text2: #3d3060;
-            --muted: #7060a0;
-            --glow: rgba(124, 58, 237, 0.1);
-            --glow-gold: rgba(212, 168, 67, 0.15);
+            --bg-primary: #f5f0ff;
+            --bg-secondary: #ede6ff;
+            --bg-card: rgba(255, 255, 255, 0.6);
+            --text-primary: #1a1430;
+            --text-secondary: #4a3a70;
+            --text-muted: #8a7aaa;
+            --border-color: rgba(124, 58, 237, 0.1);
+            --glass-bg: rgba(255, 255, 255, 0.5);
+            --glass-border: rgba(124, 58, 237, 0.15);
+            --glass-shadow: 0 8px 32px rgba(124, 58, 237, 0.08);
         }
 
         /* ═══ RESET & BASE ═══ */
-        * {
+        *,
+        *::before,
+        *::after {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
         }
         html {
             scroll-behavior: smooth;
+            -webkit-tap-highlight-color: transparent;
         }
         body {
             font-family: 'Inter', sans-serif;
-            background: var(--bg);
-            color: var(--text);
+            background: var(--bg-primary);
+            color: var(--text-primary);
             min-height: 100vh;
             overflow-x: hidden;
-            transition: background var(--transition), color var(--transition);
+            transition: background var(--transition-smooth), color var(--transition-smooth);
+            line-height: 1.6;
         }
 
-        /* ═══ PARTICLE CANVAS ═══ */
+        /* ═══ GLASS BACKGROUND EFFECT ═══ */
+        .bg-glow {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+        .bg-glow .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.3;
+            animation: orbFloat 20s ease-in-out infinite alternate;
+        }
+        .bg-glow .orb:nth-child(1) {
+            width: 500px;
+            height: 500px;
+            top: -10%;
+            left: -10%;
+            background: var(--color-purple);
+            animation-delay: 0s;
+        }
+        .bg-glow .orb:nth-child(2) {
+            width: 400px;
+            height: 400px;
+            bottom: -10%;
+            right: -10%;
+            background: var(--color-gold);
+            animation-delay: -7s;
+        }
+        .bg-glow .orb:nth-child(3) {
+            width: 300px;
+            height: 300px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: var(--color-teal);
+            animation-delay: -14s;
+            opacity: 0.15;
+        }
+        @keyframes orbFloat {
+            0% {
+                transform: translate(0, 0) scale(1);
+            }
+            33% {
+                transform: translate(60px, -40px) scale(1.1);
+            }
+            66% {
+                transform: translate(-30px, 50px) scale(0.9);
+            }
+            100% {
+                transform: translate(40px, -20px) scale(1.05);
+            }
+        }
+
+        /* ═══ PARTICLE CANVAS (subtle) ═══ */
         #particles {
             position: fixed;
             inset: 0;
             pointer-events: none;
             z-index: 0;
-            opacity: 0.6;
+            opacity: 0.4;
         }
 
-        /* ═══ MAGIC CIRCLE ═══ */
+        /* ═══ MAGIC CIRCLE (decorative) ═══ */
         .magic-circle {
             position: fixed;
             pointer-events: none;
             z-index: 0;
-            opacity: 0.04;
+            opacity: 0.03;
             animation: magicSpin 60s linear infinite;
         }
         @keyframes magicSpin {
@@ -92,246 +174,292 @@
             }
         }
 
-        /* ═══ HEADER ═══ */
+        /* ═══ GLASS HEADER ═══ */
         header {
-            background: rgba(8, 5, 16, 0.85);
-            backdrop-filter: blur(20px);
-            border-bottom: 1px solid var(--border);
-            padding: 0 24px;
             position: sticky;
             top: 0;
             z-index: 100;
+            background: var(--glass-bg);
+            backdrop-filter: var(--glass-blur);
+            -webkit-backdrop-filter: var(--glass-blur);
+            border-bottom: 1px solid var(--glass-border);
+            padding: 0 20px;
+            transition: background var(--transition-smooth);
         }
         [data-theme="light"] header {
-            background: rgba(248, 245, 255, 0.9);
+            background: rgba(255, 255, 255, 0.7);
         }
         .header-inner {
-            max-width: 1200px;
+            max-width: 1280px;
             margin: 0 auto;
             display: flex;
             align-items: center;
-            gap: 14px;
+            gap: 12px;
             padding: 10px 0;
+            min-height: 64px;
         }
         .logo {
             display: flex;
             align-items: center;
             gap: 10px;
             text-decoration: none;
-            cursor: pointer;
+            flex-shrink: 0;
         }
         .logo-img {
             width: 40px;
             height: 40px;
-            border-radius: 10px;
+            border-radius: var(--radius-sm);
             object-fit: cover;
-            border: 1px solid var(--border2);
-            box-shadow: 0 0 12px var(--glow);
+            border: 1px solid var(--glass-border);
+            box-shadow: 0 0 20px var(--color-purple-glow);
         }
         .logo-text {
             font-family: 'Cinzel', serif;
-            font-size: 1.1rem;
+            font-size: clamp(0.95rem, 2vw, 1.15rem);
             font-weight: 700;
-            color: var(--gold2);
-            letter-spacing: 0.05em;
+            background: linear-gradient(135deg, var(--color-gold-light), var(--color-purple-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
             line-height: 1.1;
         }
         .logo-sub {
-            font-size: 0.6rem;
-            color: var(--muted);
+            font-size: 0.55rem;
+            color: var(--text-muted);
             letter-spacing: 0.15em;
             text-transform: uppercase;
+            -webkit-text-fill-color: var(--text-muted);
         }
         .header-center {
             flex: 1;
             display: flex;
             justify-content: center;
-            gap: 8px;
+            gap: 6px;
         }
         .lang-toggle {
             display: flex;
-            background: var(--surface2);
-            border: 1px solid var(--border);
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
             border-radius: 20px;
             padding: 3px;
             gap: 2px;
+            backdrop-filter: var(--glass-blur);
         }
         .lang-btn {
             padding: 5px 14px;
             border-radius: 16px;
             border: none;
             cursor: pointer;
-            font-size: 0.72rem;
+            font-size: 0.7rem;
             font-weight: 600;
-            letter-spacing: 0.05em;
-            transition: all 0.2s;
+            letter-spacing: 0.04em;
+            transition: all var(--transition-smooth);
             background: transparent;
-            color: var(--muted);
+            color: var(--text-muted);
+            font-family: 'Inter', sans-serif;
         }
         .lang-btn.active {
-            background: linear-gradient(135deg, var(--accent), var(--accent2));
+            background: linear-gradient(135deg, var(--color-purple), var(--color-purple-light));
             color: #fff;
-            box-shadow: 0 2px 12px var(--glow);
+            box-shadow: 0 2px 16px var(--color-purple-glow);
+        }
+        .lang-btn:hover:not(.active) {
+            color: var(--text-primary);
         }
         .header-right {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
             margin-left: auto;
+            flex-shrink: 0;
+        }
+        .stat-pill {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 4px 12px;
+            font-size: 0.65rem;
+            color: var(--text-muted);
+            white-space: nowrap;
+            backdrop-filter: var(--glass-blur);
+        }
+        .stat-pill span {
+            background: linear-gradient(135deg, var(--color-gold-light), var(--color-gold));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 700;
         }
         .theme-btn {
             width: 36px;
             height: 36px;
             border-radius: 50%;
-            border: 1px solid var(--border);
-            background: var(--surface2);
+            border: 1px solid var(--glass-border);
+            background: var(--glass-bg);
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 1rem;
-            transition: all 0.2s;
-            color: var(--text);
+            transition: all var(--transition-smooth);
+            color: var(--text-primary);
+            backdrop-filter: var(--glass-blur);
         }
         .theme-btn:hover {
-            border-color: var(--accent2);
-            box-shadow: 0 0 12px var(--glow);
-        }
-        .stat-pill {
-            background: var(--surface2);
-            border: 1px solid var(--border);
-            border-radius: 20px;
-            padding: 5px 12px;
-            font-size: 0.7rem;
-            color: var(--muted);
-            white-space: nowrap;
-        }
-        .stat-pill span {
-            color: var(--gold2);
-            font-weight: 600;
+            border-color: var(--color-purple);
+            box-shadow: 0 0 20px var(--color-purple-glow);
+            transform: scale(1.05);
         }
 
-        /* ═══ HERO ═══ */
+        /* ═══ HERO — Glassmorphism ═══ */
         .hero {
             position: relative;
             overflow: hidden;
-            padding: 60px 24px 48px;
+            padding: 50px 20px 40px;
             text-align: center;
-            background: radial-gradient(ellipse 100% 80% at 50% 0%, rgba(124, 58, 237, 0.15) 0%, transparent 70%);
+            background: var(--gradient-hero);
+            border-bottom: 1px solid var(--glass-border);
         }
-        .hero::before {
+        .hero::after {
             content: '';
             position: absolute;
             inset: 0;
-            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%237c3aed' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            background: radial-gradient(ellipse 80% 60% at 50% 80%, var(--color-purple-glow) 0%, transparent 70%);
             pointer-events: none;
+            opacity: 0.3;
+        }
+        .hero-logo-img {
+            width: 72px;
+            height: 72px;
+            border-radius: var(--radius-md);
+            object-fit: cover;
+            border: 2px solid var(--glass-border);
+            box-shadow: 0 0 40px var(--color-purple-glow), 0 0 80px rgba(124, 58, 237, 0.05);
+            margin: 0 auto 14px;
+            display: block;
+            position: relative;
+            z-index: 1;
+            animation: fadeSlideUp 0.6s ease both;
         }
         .hero-badge {
             display: inline-flex;
             align-items: center;
             gap: 6px;
-            background: var(--surface2);
-            border: 1px solid var(--border2);
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
             border-radius: 20px;
-            padding: 5px 14px;
-            font-size: 0.68rem;
+            padding: 4px 14px;
+            font-size: 0.6rem;
             letter-spacing: 0.12em;
             text-transform: uppercase;
-            color: var(--gold);
-            margin-bottom: 16px;
-            animation: fadeSlideUp 0.6s ease both;
+            color: var(--color-gold);
+            margin-bottom: 12px;
+            backdrop-filter: var(--glass-blur);
+            position: relative;
+            z-index: 1;
+            animation: fadeSlideUp 0.6s ease 0.1s both;
         }
+        .hero-title {
+            font-family: 'Cinzel', serif;
+            font-size: clamp(2rem, 5vw, 3.2rem);
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--color-gold-light), var(--color-purple-light), var(--color-teal));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.15;
+            margin-bottom: 2px;
+            position: relative;
+            z-index: 1;
+            animation: fadeSlideUp 0.7s ease 0.2s both;
+            text-shadow: 0 0 60px var(--color-gold-glow);
+        }
+        .hero-subtitle {
+            font-family: 'Noto Serif Telugu', serif;
+            font-size: clamp(1rem, 2.5vw, 1.5rem);
+            color: var(--text-secondary);
+            margin-bottom: 4px;
+            position: relative;
+            z-index: 1;
+            animation: fadeSlideUp 0.7s ease 0.3s both;
+        }
+        .hero-desc {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            position: relative;
+            z-index: 1;
+            animation: fadeSlideUp 0.7s ease 0.4s both;
+        }
+        .hero-desc span {
+            background: linear-gradient(135deg, var(--color-teal), var(--color-purple-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 600;
+        }
+        .hero-divider {
+            width: 80px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--color-gold), transparent);
+            margin: 16px auto;
+            position: relative;
+            z-index: 1;
+            animation: fadeSlideUp 0.7s ease 0.5s both;
+        }
+
         @keyframes fadeSlideUp {
             from {
                 opacity: 0;
-                transform: translateY(16px);
+                transform: translateY(24px);
             }
             to {
                 opacity: 1;
                 transform: translateY(0);
             }
         }
-        .hero-logo-img {
-            width: 72px;
-            height: 72px;
-            border-radius: 18px;
-            object-fit: cover;
-            border: 2px solid var(--border2);
-            box-shadow: 0 0 30px var(--glow), 0 0 60px rgba(124, 58, 237, 0.1);
-            margin: 0 auto 16px;
-            display: block;
-            animation: fadeSlideUp 0.5s ease both;
-        }
-        .hero-title {
-            font-family: 'Cinzel', serif;
-            font-size: clamp(1.8rem, 5vw, 3rem);
-            font-weight: 700;
-            color: var(--gold2);
-            letter-spacing: 0.05em;
-            line-height: 1.2;
-            margin-bottom: 4px;
-            animation: fadeSlideUp 0.7s ease 0.1s both;
-            text-shadow: 0 0 40px var(--glow-gold);
-        }
-        .hero-subtitle {
-            font-family: 'Noto Serif Telugu', serif;
-            font-size: clamp(1.1rem, 3vw, 1.6rem);
-            color: var(--text2);
-            margin-bottom: 8px;
-            animation: fadeSlideUp 0.7s ease 0.2s both;
-        }
-        .hero-desc {
-            font-size: 0.82rem;
-            color: var(--muted);
-            animation: fadeSlideUp 0.7s ease 0.3s both;
-        }
-        .hero-divider {
-            width: 80px;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, var(--gold), transparent);
-            margin: 20px auto;
-            animation: fadeSlideUp 0.7s ease 0.4s both;
-        }
 
-        /* ═══ SEARCH & CONTROLS ═══ */
+        /* ═══ CONTROLS — Glass ═══ */
         .controls {
             max-width: 900px;
             margin: 0 auto;
-            padding: 0 20px;
+            padding: 16px 20px 8px;
             display: flex;
             flex-direction: column;
             gap: 10px;
-            animation: fadeSlideUp 0.8s ease 0.5s both;
+            animation: fadeSlideUp 0.8s ease 0.6s both;
         }
         .search-wrap {
             position: relative;
         }
         .search-icon {
             position: absolute;
-            left: 16px;
+            left: 14px;
             top: 50%;
             transform: translateY(-50%);
-            color: var(--muted);
+            color: var(--text-muted);
             pointer-events: none;
+            width: 18px;
+            height: 18px;
         }
         #search {
             width: 100%;
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 14px;
-            padding: 14px 16px 14px 46px;
-            color: var(--text);
-            font-size: 0.95rem;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-md);
+            padding: 13px 16px 13px 44px;
+            color: var(--text-primary);
+            font-size: 0.9rem;
             outline: none;
-            transition: all 0.2s;
+            transition: all var(--transition-smooth);
             font-family: 'Inter', sans-serif;
+            backdrop-filter: var(--glass-blur);
         }
         #search:focus {
-            border-color: var(--accent2);
-            box-shadow: 0 0 0 3px var(--glow);
+            border-color: var(--color-purple);
+            box-shadow: 0 0 0 3px var(--color-purple-glow), 0 0 30px var(--color-purple-glow);
         }
         #search::placeholder {
-            color: var(--muted);
+            color: var(--text-muted);
         }
         .filter-row {
             display: flex;
@@ -340,37 +468,46 @@
             align-items: center;
         }
         .filter-btn {
-            background: var(--surface);
-            border: 1px solid var(--border);
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
             border-radius: 20px;
             padding: 6px 14px;
-            color: var(--muted);
-            font-size: 0.75rem;
+            color: var(--text-muted);
+            font-size: 0.72rem;
             cursor: pointer;
-            transition: all 0.2s;
+            transition: all var(--transition-smooth);
             white-space: nowrap;
             font-family: 'Inter', sans-serif;
+            backdrop-filter: var(--glass-blur);
         }
         .filter-btn:hover {
-            border-color: var(--accent2);
-            color: var(--text);
+            border-color: var(--color-purple-light);
+            color: var(--text-primary);
+            transform: translateY(-1px);
         }
         .filter-btn.active {
-            background: linear-gradient(135deg, rgba(124, 58, 237, 0.3), rgba(168, 85, 247, 0.2));
-            border-color: var(--accent2);
-            color: var(--accent3);
+            background: linear-gradient(135deg, rgba(124, 58, 237, 0.25), rgba(168, 85, 247, 0.15));
+            border-color: var(--color-purple);
+            color: var(--color-purple-light);
+            box-shadow: 0 0 20px var(--color-purple-glow);
         }
         .sort-select {
             margin-left: auto;
-            background: var(--surface);
-            border: 1px solid var(--border);
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
             border-radius: 20px;
             padding: 6px 14px;
-            color: var(--muted);
-            font-size: 0.75rem;
+            color: var(--text-muted);
+            font-size: 0.72rem;
             cursor: pointer;
             outline: none;
             font-family: 'Inter', sans-serif;
+            backdrop-filter: var(--glass-blur);
+            transition: border-color var(--transition-smooth);
+        }
+        .sort-select:hover,
+        .sort-select:focus {
+            border-color: var(--color-purple-light);
         }
 
         /* ═══ LETTER FILTER ═══ */
@@ -386,14 +523,14 @@
             margin-bottom: 8px;
         }
         .letter-filter-title {
-            font-size: 0.68rem;
-            letter-spacing: 0.1em;
+            font-size: 0.6rem;
+            letter-spacing: 0.12em;
             text-transform: uppercase;
-            color: var(--muted);
+            color: var(--text-muted);
         }
         .letter-filter-clear {
-            font-size: 0.68rem;
-            color: var(--accent3);
+            font-size: 0.6rem;
+            color: var(--color-purple-light);
             cursor: pointer;
             background: none;
             border: none;
@@ -401,6 +538,7 @@
             text-decoration: underline;
             text-underline-offset: 3px;
             display: none;
+            font-family: 'Inter', sans-serif;
         }
         .letter-filter-clear.visible {
             display: inline;
@@ -414,51 +552,57 @@
             min-width: 32px;
             height: 32px;
             padding: 0 6px;
-            border-radius: 8px;
-            background: var(--surface);
-            border: 1px solid var(--border);
-            color: var(--muted);
-            font-size: 0.78rem;
+            border-radius: var(--radius-sm);
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            color: var(--text-muted);
+            font-size: 0.72rem;
             cursor: pointer;
-            transition: all 0.15s;
+            transition: all var(--transition-smooth);
             font-family: 'Noto Sans Telugu', 'Inter', sans-serif;
             display: flex;
             align-items: center;
             justify-content: center;
+            backdrop-filter: var(--glass-blur);
         }
         .letter-btn:hover {
-            border-color: var(--gold);
-            color: var(--gold);
+            border-color: var(--color-gold);
+            color: var(--color-gold);
+            transform: translateY(-2px);
         }
         .letter-btn.active {
             background: linear-gradient(135deg, rgba(212, 168, 67, 0.2), rgba(240, 201, 106, 0.1));
-            border-color: var(--gold);
-            color: var(--gold2);
+            border-color: var(--color-gold);
+            color: var(--color-gold-light);
+            box-shadow: 0 0 20px var(--color-gold-glow);
         }
         .letter-btn.disabled {
-            opacity: 0.25;
+            opacity: 0.2;
             pointer-events: none;
         }
 
         /* ═══ RESULTS BAR ═══ */
         .results-bar {
             max-width: 1200px;
-            margin: 14px auto 0;
+            margin: 12px auto 0;
             padding: 0 20px;
-            font-size: 0.75rem;
-            color: var(--muted);
+            font-size: 0.7rem;
+            color: var(--text-muted);
             display: flex;
             align-items: center;
             gap: 8px;
         }
         .results-count {
-            color: var(--gold2);
-            font-weight: 600;
+            background: linear-gradient(135deg, var(--color-gold-light), var(--color-gold));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 700;
         }
         .loading-indicator {
             display: none;
-            font-size: 0.75rem;
-            color: var(--gold);
+            font-size: 0.7rem;
+            color: var(--color-gold);
             animation: pulse 1.2s infinite;
         }
         .loading-indicator.active {
@@ -467,70 +611,67 @@
         @keyframes pulse {
             0%,
             100% {
-                opacity: 0.4;
+                opacity: 0.3;
             }
             50% {
                 opacity: 1;
             }
         }
 
-        /* ═══ SONGS GRID ═══ */
+        /* ═══ SONGS GRID — Glass Cards ═══ */
         .songs-grid {
-            max-width: 1200px;
-            margin: 12px auto 60px;
+            max-width: 1280px;
+            margin: 14px auto 60px;
             padding: 0 20px;
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
-            gap: 10px;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 14px;
         }
 
-        /* ═══ SONG CARD ═══ */
+        /* ═══ SONG CARD — Glassmorphism ═══ */
         .song-card {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 14px;
-            padding: 16px 18px;
+            background: var(--glass-bg);
+            backdrop-filter: var(--glass-blur);
+            -webkit-backdrop-filter: var(--glass-blur);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-md);
+            padding: 18px 20px;
             cursor: pointer;
             position: relative;
             overflow: hidden;
-            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-            animation: cardIn 0.4s ease both;
-        }
-        @keyframes cardIn {
-            from {
-                opacity: 0;
-                transform: translateY(12px) scale(0.98);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0) scale(1);
-            }
+            transition: all var(--transition-bounce);
+            animation: cardIn 0.5s ease both;
+            box-shadow: var(--glass-shadow);
         }
         .song-card::before {
             content: '';
             position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 2px;
-            background: linear-gradient(90deg, var(--gold), var(--accent2));
+            inset: 0;
+            border-radius: var(--radius-md);
+            padding: 1px;
+            background: linear-gradient(135deg, var(--color-purple), var(--color-gold), var(--color-teal), var(--color-pink));
             opacity: 0;
-            transition: opacity 0.2s;
+            transition: opacity var(--transition-smooth);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            pointer-events: none;
         }
         .song-card::after {
             content: '';
             position: absolute;
             inset: 0;
-            background: radial-gradient(ellipse at var(--mx, 50%) var(--my, 50%), rgba(124, 58, 237, 0.08) 0%, transparent 60%);
+            border-radius: var(--radius-md);
+            background: radial-gradient(ellipse at var(--mx, 50%) var(--my, 50%), rgba(124, 58, 237, 0.1) 0%, transparent 60%);
             opacity: 0;
-            transition: opacity 0.3s;
+            transition: opacity var(--transition-smooth);
             pointer-events: none;
         }
         .song-card:hover {
-            border-color: var(--border2);
-            background: var(--surface2);
-            transform: translateY(-2px);
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3), 0 0 0 1px var(--border2);
+            transform: translateY(-4px) scale(1.01);
+            border-color: rgba(124, 58, 237, 0.3);
+            box-shadow: 0 12px 48px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(124, 58, 237, 0.2);
         }
         .song-card:hover::before {
             opacity: 1;
@@ -538,50 +679,83 @@
         .song-card:hover::after {
             opacity: 1;
         }
+        .song-card.is-new::after {
+            content: '';
+            position: absolute;
+            inset: -1px;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--color-purple-light);
+            animation: glowPulse 2s ease-in-out infinite;
+            pointer-events: none;
+            z-index: 1;
+        }
+        @keyframes glowPulse {
+            0%,
+            100% {
+                box-shadow: 0 0 10px var(--color-purple-glow);
+            }
+            50% {
+                box-shadow: 0 0 30px var(--color-purple-glow);
+            }
+        }
+
+        @keyframes cardIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px) scale(0.96);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
         .song-num {
-            font-size: 0.6rem;
-            color: var(--muted);
-            margin-bottom: 3px;
+            font-size: 0.55rem;
+            color: var(--text-muted);
+            margin-bottom: 2px;
             font-variant-numeric: tabular-nums;
             letter-spacing: 0.05em;
+            font-weight: 500;
         }
         .song-title-primary {
             font-family: 'Noto Serif Telugu', serif;
             font-size: 1.05rem;
             font-weight: 600;
-            color: var(--text);
-            line-height: 1.35;
-            margin-bottom: 2px;
+            color: var(--text-primary);
+            line-height: 1.3;
+            margin-bottom: 1px;
         }
         .song-title-secondary {
-            font-size: 0.7rem;
-            color: var(--muted);
-            margin-bottom: 8px;
+            font-size: 0.65rem;
+            color: var(--text-muted);
+            margin-bottom: 6px;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
         }
         [data-lang="en"] .song-title-primary {
             font-family: 'Inter', sans-serif;
-            font-size: 0.92rem;
+            font-size: 0.95rem;
         }
         [data-lang="en"] .song-title-secondary {
             font-family: 'Noto Sans Telugu', sans-serif;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
         }
         .song-preview {
             font-family: 'Noto Sans Telugu', sans-serif;
-            font-size: 0.75rem;
-            color: var(--muted);
+            font-size: 0.72rem;
+            color: var(--text-muted);
             margin-bottom: 10px;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
             font-style: italic;
+            opacity: 0.8;
         }
         [data-lang="en"] .song-preview {
             font-family: 'Inter', sans-serif;
-            font-size: 0.72rem;
+            font-size: 0.7rem;
         }
         .song-meta {
             display: flex;
@@ -590,74 +764,84 @@
             align-items: center;
         }
         .tag {
-            font-size: 0.6rem;
-            padding: 2px 8px;
-            border-radius: 8px;
-            font-weight: 500;
-            letter-spacing: 0.02em;
+            font-size: 0.55rem;
+            padding: 2px 10px;
+            border-radius: 12px;
+            font-weight: 600;
+            letter-spacing: 0.03em;
+            text-transform: uppercase;
         }
         .tag-scale {
-            background: rgba(212, 168, 67, 0.12);
-            color: var(--gold);
+            background: rgba(212, 168, 67, 0.15);
+            color: var(--color-gold);
             border: 1px solid rgba(212, 168, 67, 0.2);
         }
         .tag-new {
             background: rgba(124, 58, 237, 0.2);
-            color: var(--accent3);
+            color: var(--color-purple-light);
             border: 1px solid rgba(168, 85, 247, 0.3);
         }
         .tag-cat {
             background: rgba(255, 255, 255, 0.04);
-            color: var(--muted);
-            border: 1px solid var(--border);
+            color: var(--text-muted);
+            border: 1px solid var(--glass-border);
         }
         .song-links {
             margin-left: auto;
             display: flex;
-            gap: 5px;
+            gap: 4px;
         }
         .icon-btn {
-            width: 26px;
-            height: 26px;
+            width: 28px;
+            height: 28px;
             border-radius: 50%;
-            background: rgba(255, 255, 255, 0.04);
-            border: 1px solid var(--border);
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
             display: flex;
             align-items: center;
             justify-content: center;
-            color: var(--muted);
+            color: var(--text-muted);
             text-decoration: none;
-            transition: all 0.15s;
+            transition: all var(--transition-smooth);
             flex-shrink: 0;
+            backdrop-filter: var(--glass-blur);
+            font-size: 0;
         }
         .icon-btn:hover {
-            background: var(--glow);
-            border-color: var(--accent2);
-            color: var(--accent3);
+            background: var(--color-purple-glow);
+            border-color: var(--color-purple);
+            color: var(--color-purple-light);
+            transform: scale(1.1);
+        }
+        .icon-btn svg {
+            width: 12px;
+            height: 12px;
         }
 
-        /* ═══ NOW PLAYING BAR ═══ */
+        /* ═══ NOW PLAYING BAR — Glass ═══ */
         .now-playing {
             position: fixed;
             bottom: 0;
             left: 0;
             right: 0;
             z-index: 200;
-            background: rgba(13, 9, 22, 0.95);
-            backdrop-filter: blur(20px);
-            border-top: 1px solid var(--border2);
+            background: var(--glass-bg);
+            backdrop-filter: var(--glass-blur);
+            -webkit-backdrop-filter: var(--glass-blur);
+            border-top: 1px solid var(--glass-border);
             padding: 10px 20px;
             display: flex;
             align-items: center;
-            gap: 14px;
+            gap: 12px;
             transform: translateY(100%);
-            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: transform var(--transition-bounce);
+            box-shadow: 0 -8px 32px rgba(0, 0, 0, 0.2);
         }
         .now-playing.visible {
             transform: translateY(0);
         }
         [data-theme="light"] .now-playing {
-            background: rgba(248, 245, 255, 0.97);
+            background: rgba(255, 255, 255, 0.8);
         }
         .np-info {
             flex: 1;
@@ -666,156 +850,173 @@
         .np-title {
             font-size: 0.78rem;
             font-family: 'Noto Serif Telugu', serif;
-            color: var(--text);
+            color: var(--text-primary);
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
+            font-weight: 500;
         }
         .np-sub {
-            font-size: 0.65rem;
-            color: var(--muted);
+            font-size: 0.6rem;
+            color: var(--text-muted);
         }
         .np-controls {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
         }
         .np-btn {
             width: 32px;
             height: 32px;
             border-radius: 50%;
-            background: var(--surface2);
-            border: 1px solid var(--border);
-            color: var(--text2);
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            color: var(--text-secondary);
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: all 0.15s;
-            font-size: 0.8rem;
+            transition: all var(--transition-smooth);
+            font-size: 0.7rem;
+            font-weight: 600;
+            backdrop-filter: var(--glass-blur);
         }
         .np-btn:hover {
-            border-color: var(--accent2);
-            color: var(--accent3);
+            border-color: var(--color-purple-light);
+            color: var(--color-purple-light);
+            transform: scale(1.05);
         }
         .np-btn.play {
-            background: linear-gradient(135deg, var(--accent), var(--accent2));
+            background: linear-gradient(135deg, var(--color-purple), var(--color-purple-light));
             border-color: transparent;
             color: #fff;
-            width: 38px;
-            height: 38px;
+            width: 40px;
+            height: 40px;
+            font-size: 0.9rem;
+            box-shadow: 0 2px 20px var(--color-purple-glow);
         }
         .np-btn.play:hover {
-            box-shadow: 0 0 16px var(--glow);
+            box-shadow: 0 4px 32px var(--color-purple-glow);
+            transform: scale(1.08);
         }
         .np-progress-wrap {
             flex: 2;
-            max-width: 300px;
+            max-width: 280px;
             display: flex;
             flex-direction: column;
-            gap: 4px;
+            gap: 3px;
         }
         .np-progress {
             height: 3px;
-            background: var(--surface3);
+            background: rgba(255, 255, 255, 0.1);
             border-radius: 2px;
             cursor: pointer;
             position: relative;
+            overflow: hidden;
+        }
+        [data-theme="light"] .np-progress {
+            background: rgba(0, 0, 0, 0.08);
         }
         .np-progress-fill {
             height: 100%;
-            background: linear-gradient(90deg, var(--accent), var(--gold));
+            background: linear-gradient(90deg, var(--color-purple), var(--color-gold), var(--color-teal));
             border-radius: 2px;
             transition: width 0.1s;
+            width: 0%;
         }
         .np-time {
             display: flex;
             justify-content: space-between;
-            font-size: 0.6rem;
-            color: var(--muted);
+            font-size: 0.55rem;
+            color: var(--text-muted);
         }
         .np-close {
-            color: var(--muted);
+            color: var(--text-muted);
             cursor: pointer;
-            font-size: 0.9rem;
+            font-size: 1rem;
             padding: 4px;
-            transition: color 0.15s;
+            transition: color var(--transition-smooth);
         }
         .np-close:hover {
-            color: var(--text);
+            color: var(--text-primary);
         }
         audio#audio-player {
             display: none;
         }
 
-        /* ═══ MODAL ═══ */
+        /* ═══ MODAL — Glass ═══ */
         .modal-overlay {
             position: fixed;
             inset: 0;
             z-index: 300;
-            background: rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(8px);
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
             display: flex;
             align-items: center;
             justify-content: center;
             padding: 20px;
             opacity: 0;
             pointer-events: none;
-            transition: opacity 0.25s;
+            transition: opacity var(--transition-smooth);
         }
         .modal-overlay.open {
             opacity: 1;
             pointer-events: all;
         }
         .modal {
-            background: var(--surface);
-            border: 1px solid var(--border2);
-            border-radius: 20px;
+            background: var(--glass-bg);
+            backdrop-filter: var(--glass-blur);
+            -webkit-backdrop-filter: var(--glass-blur);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-lg);
             max-width: 780px;
             width: 100%;
-            max-height: 92vh;
+            max-height: 90vh;
             display: flex;
             flex-direction: column;
             overflow: hidden;
-            transform: translateY(24px) scale(0.97);
-            transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 24px 80px rgba(0, 0, 0, 0.5), 0 0 0 1px var(--border2), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+            transform: translateY(30px) scale(0.96);
+            transition: transform var(--transition-bounce);
+            box-shadow: 0 24px 80px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.05);
         }
         .modal-overlay.open .modal {
             transform: translateY(0) scale(1);
         }
         .modal-header {
-            padding: 22px 24px 18px;
-            border-bottom: 1px solid var(--border);
+            padding: 22px 24px 16px;
+            border-bottom: 1px solid var(--glass-border);
             position: relative;
-            background: linear-gradient(180deg, var(--surface2), var(--surface));
+            background: linear-gradient(180deg, rgba(124, 58, 237, 0.08), transparent);
         }
         .modal-num {
-            font-size: 0.62rem;
-            color: var(--gold);
+            font-size: 0.6rem;
+            color: var(--color-gold);
             letter-spacing: 0.1em;
-            margin-bottom: 3px;
+            text-transform: uppercase;
+            margin-bottom: 2px;
+            font-weight: 600;
         }
         .modal-title-primary {
             font-family: 'Noto Serif Telugu', serif;
-            font-size: 1.5rem;
+            font-size: 1.4rem;
             font-weight: 700;
-            color: var(--text);
+            color: var(--text-primary);
             line-height: 1.3;
-            margin-bottom: 3px;
+            margin-bottom: 2px;
         }
         .modal-title-secondary {
-            font-size: 0.8rem;
-            color: var(--muted);
-            margin-bottom: 14px;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-bottom: 12px;
         }
         [data-lang="en"] .modal-title-primary {
             font-family: 'Inter', sans-serif;
-            font-size: 1.3rem;
+            font-size: 1.2rem;
         }
         [data-lang="en"] .modal-title-secondary {
             font-family: 'Noto Serif Telugu', serif;
-            font-size: 1rem;
+            font-size: 0.95rem;
         }
         .modal-meta {
             display: flex;
@@ -824,24 +1025,26 @@
         }
         .modal-close {
             position: absolute;
-            top: 18px;
-            right: 18px;
-            width: 30px;
-            height: 30px;
+            top: 16px;
+            right: 16px;
+            width: 32px;
+            height: 32px;
             border-radius: 50%;
-            background: rgba(255, 255, 255, 0.06);
-            border: 1px solid var(--border);
-            color: var(--muted);
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            color: var(--text-muted);
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 0.9rem;
-            transition: all 0.15s;
+            transition: all var(--transition-smooth);
+            backdrop-filter: var(--glass-blur);
         }
         .modal-close:hover {
             background: rgba(255, 255, 255, 0.1);
-            color: var(--text);
+            color: var(--text-primary);
+            transform: rotate(90deg);
         }
 
         /* ═══ VIDEO PLAYER ═══ */
@@ -850,7 +1053,6 @@
             width: 100%;
             padding-top: 56.25%;
             background: #000;
-            border-radius: 0;
         }
         .video-container iframe {
             position: absolute;
@@ -860,20 +1062,26 @@
             border: none;
         }
         .video-wrap {
-            border-bottom: 1px solid var(--border);
+            border-bottom: 1px solid var(--glass-border);
         }
 
-        /* ═══ MODAL BODY — IMPROVED LYRICS LAYOUT ═══ */
+        /* ═══ MODAL BODY — Improved Lyrics ═══ */
         .modal-body {
             overflow-y: auto;
             padding: 20px 24px;
             flex: 1;
         }
+        .modal-body::-webkit-scrollbar {
+            width: 3px;
+        }
+        .modal-body::-webkit-scrollbar-thumb {
+            background: var(--color-purple);
+            border-radius: 3px;
+        }
 
-        /* toggle button */
         .trans-toggle {
-            font-size: 0.7rem;
-            color: var(--accent3);
+            font-size: 0.65rem;
+            color: var(--color-purple-light);
             cursor: pointer;
             background: none;
             border: none;
@@ -882,24 +1090,26 @@
             text-decoration: underline;
             text-underline-offset: 3px;
             font-family: 'Inter', sans-serif;
+            transition: color var(--transition-smooth);
+        }
+        .trans-toggle:hover {
+            color: var(--color-gold);
         }
 
-        /* ── CHORUS BLOCK ── */
         .section-block.chorus-block {
-            margin-bottom: 28px;
-            background: rgba(212, 168, 67, 0.05);
-            border-radius: 14px;
+            margin-bottom: 24px;
+            background: rgba(212, 168, 67, 0.06);
+            border-radius: var(--radius-md);
             padding: 16px 18px;
             border: 1px solid rgba(212, 168, 67, 0.12);
         }
-
         .section-label.chorus {
-            font-size: 0.6rem;
+            font-size: 0.55rem;
             letter-spacing: 0.15em;
             text-transform: uppercase;
-            color: var(--gold);
-            font-weight: 600;
-            margin-bottom: 12px;
+            color: var(--color-gold);
+            font-weight: 700;
+            margin-bottom: 10px;
             display: flex;
             align-items: center;
             gap: 8px;
@@ -908,126 +1118,114 @@
             content: '';
             flex: 1;
             height: 1px;
-            background: linear-gradient(90deg, var(--gold), transparent);
+            background: linear-gradient(90deg, var(--color-gold), transparent);
             opacity: 0.3;
         }
 
-        /* ── VERSE BLOCK ── */
         .section-block.verse-block {
-            margin-bottom: 24px;
+            margin-bottom: 20px;
             display: flex;
-            gap: 14px;
+            gap: 12px;
             align-items: flex-start;
         }
-
-        /* verse number badge */
         .verse-num-badge {
             flex-shrink: 0;
             width: 28px;
             height: 28px;
             border-radius: 50%;
             background: rgba(124, 58, 237, 0.12);
-            border: 1.5px solid var(--accent2);
+            border: 1.5px solid var(--color-purple-light);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 0.7rem;
+            font-size: 0.65rem;
             font-weight: 700;
-            color: var(--accent2);
+            color: var(--color-purple-light);
             margin-top: 2px;
             font-family: 'Inter', sans-serif;
         }
-
-        /* verse content wrapper */
         .verse-content {
             flex: 1;
             min-width: 0;
         }
-
-        /* ── LYRICS LINES ── */
         .lyric-lines {
             display: flex;
             flex-direction: column;
-            gap: 2px;
+            gap: 1px;
         }
-
         .lyric-line {
             padding: 2px 0;
         }
-
         .line-tel {
             font-family: 'Noto Serif Telugu', serif;
-            font-size: 1rem;
-            color: var(--text);
-            line-height: 1.65;
+            font-size: 0.95rem;
+            color: var(--text-primary);
+            line-height: 1.6;
         }
-
         .line-trans {
-            font-size: 0.73rem;
-            color: var(--muted);
+            font-size: 0.7rem;
+            color: var(--text-muted);
             line-height: 1.4;
             margin-top: 1px;
             font-style: italic;
-            padding-left: 4px;
+            padding-left: 6px;
             border-left: 2px solid rgba(124, 58, 237, 0.15);
         }
-
-        /* refrain line inside chorus */
         .refrain-line .line-tel {
-            color: var(--gold2);
+            color: var(--color-gold-light);
             font-weight: 600;
-            text-shadow: 0 0 20px rgba(212, 168, 67, 0.15);
+            text-shadow: 0 0 20px var(--color-gold-glow);
         }
         .refrain-line .line-trans {
-            color: var(--gold);
+            color: var(--color-gold);
             border-left-color: rgba(212, 168, 67, 0.3);
         }
 
-        /* language override for English mode */
         [data-lang="en"] .line-tel {
             font-family: 'Inter', sans-serif;
-            font-size: 0.88rem;
-            color: var(--text2);
+            font-size: 0.85rem;
+            color: var(--text-secondary);
         }
         [data-lang="en"] .line-trans {
             font-family: 'Noto Serif Telugu', serif;
-            font-size: 0.9rem;
-            color: var(--text);
+            font-size: 0.85rem;
+            color: var(--text-primary);
             font-style: normal;
             border-left-color: rgba(168, 85, 247, 0.2);
         }
 
-        /* ── REFRAIN BOX (legacy fallback) ── */
+        /* Refrain Box (legacy) */
         .refrain-box {
-            background: rgba(212, 168, 67, 0.07);
-            border: 1px solid rgba(212, 168, 67, 0.18);
-            border-radius: 10px;
+            background: rgba(212, 168, 67, 0.06);
+            border: 1px solid rgba(212, 168, 67, 0.12);
+            border-radius: var(--radius-sm);
             padding: 12px 16px;
-            margin-bottom: 18px;
+            margin-bottom: 16px;
         }
         .refrain-label {
-            font-size: 0.58rem;
-            color: var(--gold);
+            font-size: 0.55rem;
+            color: var(--color-gold);
             letter-spacing: 0.1em;
             text-transform: uppercase;
-            margin-bottom: 6px;
+            margin-bottom: 4px;
+            font-weight: 600;
         }
         .refrain-tel {
             font-family: 'Noto Serif Telugu', serif;
-            font-size: 1rem;
-            color: var(--text);
+            font-size: 0.95rem;
+            color: var(--text-primary);
             font-weight: 600;
         }
         .refrain-trans {
-            font-size: 0.75rem;
-            color: var(--muted);
+            font-size: 0.7rem;
+            color: var(--text-muted);
             margin-top: 2px;
         }
 
-        /* ── MODAL ACTIONS ── */
+        /* ═══ MODAL ACTIONS ═══ */
         .modal-actions {
             padding: 14px 24px;
-            border-top: 1px solid var(--border);
+            border-top: 1px solid var(--glass-border);
             display: flex;
             gap: 8px;
             align-items: center;
@@ -1038,53 +1236,59 @@
             align-items: center;
             gap: 6px;
             padding: 8px 16px;
-            border-radius: 10px;
-            font-size: 0.78rem;
-            font-weight: 500;
+            border-radius: var(--radius-sm);
+            font-size: 0.75rem;
+            font-weight: 600;
             text-decoration: none;
             border: none;
             cursor: pointer;
-            transition: all 0.2s;
+            transition: all var(--transition-smooth);
             font-family: 'Inter', sans-serif;
         }
         .btn-audio {
-            background: linear-gradient(135deg, var(--accent), var(--accent2));
+            background: linear-gradient(135deg, var(--color-purple), var(--color-purple-light));
             color: #fff;
-            box-shadow: 0 2px 12px var(--glow);
+            box-shadow: 0 2px 16px var(--color-purple-glow);
         }
         .btn-audio:hover {
-            box-shadow: 0 4px 20px var(--glow);
-            transform: translateY(-1px);
+            box-shadow: 0 4px 32px var(--color-purple-glow);
+            transform: translateY(-2px) scale(1.02);
         }
         .btn-video {
-            background: var(--surface2);
-            border: 1px solid var(--border2);
-            color: var(--text2);
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            color: var(--text-secondary);
+            backdrop-filter: var(--glass-blur);
         }
         .btn-video:hover {
-            border-color: var(--gold);
-            color: var(--gold);
+            border-color: var(--color-gold);
+            color: var(--color-gold);
+            transform: translateY(-2px);
         }
         .btn-toggle-video {
-            background: var(--surface2);
-            border: 1px solid var(--border);
-            color: var(--muted);
-            font-size: 0.72rem;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            color: var(--text-muted);
+            font-size: 0.7rem;
+            backdrop-filter: var(--glass-blur);
         }
         .btn-toggle-video.active {
-            border-color: var(--accent2);
-            color: var(--accent3);
+            border-color: var(--color-purple);
+            color: var(--color-purple-light);
             background: rgba(124, 58, 237, 0.1);
         }
+        .btn-toggle-video:hover {
+            transform: translateY(-2px);
+        }
 
-        /* ═══ EMPTY ═══ */
+        /* ═══ EMPTY STATE ═══ */
         .empty {
             text-align: center;
             padding: 80px 24px;
-            color: var(--muted);
+            color: var(--text-muted);
         }
         .empty-icon {
-            font-size: 2.5rem;
+            font-size: 3rem;
             margin-bottom: 12px;
             opacity: 0.4;
         }
@@ -1097,11 +1301,11 @@
             background: transparent;
         }
         ::-webkit-scrollbar-thumb {
-            background: var(--border2);
+            background: var(--color-purple);
             border-radius: 3px;
         }
 
-        /* ═══ ANIMATIONS ═══ */
+        /* ═══ RUNE FLASH ═══ */
         .rune-flash {
             position: fixed;
             inset: 0;
@@ -1113,42 +1317,16 @@
             opacity: 0;
         }
         .rune-flash.flash {
-            animation: runeFlash 0.5s ease forwards;
+            animation: runeFlash 0.6s ease forwards;
         }
         @keyframes runeFlash {
             0% {
                 opacity: 0;
             }
-            20% {
-                opacity: 0.15;
+            15% {
+                opacity: 0.2;
             }
             100% {
-                opacity: 0;
-            }
-        }
-        .card-particles {
-            position: absolute;
-            inset: 0;
-            pointer-events: none;
-            overflow: hidden;
-            border-radius: 14px;
-        }
-        .sparkle {
-            position: absolute;
-            width: 4px;
-            height: 4px;
-            border-radius: 50%;
-            background: var(--gold2);
-            animation: sparklePop 0.6s ease forwards;
-            pointer-events: none;
-        }
-        @keyframes sparklePop {
-            0% {
-                transform: scale(0) translate(0, 0);
-                opacity: 1;
-            }
-            100% {
-                transform: scale(1) translate(var(--tx), var(--ty));
                 opacity: 0;
             }
         }
@@ -1157,7 +1335,7 @@
         .page-wipe {
             position: fixed;
             inset: 0;
-            background: var(--accent);
+            background: linear-gradient(135deg, var(--color-purple), var(--color-teal));
             z-index: 1000;
             transform: scaleX(0);
             transform-origin: left;
@@ -1186,9 +1364,10 @@
         }
 
         /* ═══ RESPONSIVE ═══ */
-        @media(max-width:600px) {
+        @media(max-width:768px) {
             .songs-grid {
-                grid-template-columns: 1fr;
+                grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+                gap: 12px;
             }
             .header-center {
                 display: none;
@@ -1200,7 +1379,7 @@
                 padding: 32px 16px 28px;
             }
             .modal {
-                border-radius: 20px 20px 0 0;
+                border-radius: var(--radius-lg) var(--radius-lg) 0 0;
                 max-height: 92vh;
                 align-self: flex-end;
             }
@@ -1217,65 +1396,162 @@
             .verse-num-badge {
                 width: 24px;
                 height: 24px;
-                font-size: 0.6rem;
+                font-size: 0.55rem;
             }
             .line-tel {
-                font-size: 0.9rem;
+                font-size: 0.85rem;
+            }
+            .now-playing {
+                padding: 8px 14px;
+                gap: 8px;
+            }
+            .np-btn.play {
+                width: 36px;
+                height: 36px;
+                font-size: 0.8rem;
+            }
+            .filter-btn {
+                font-size: 0.65rem;
+                padding: 4px 10px;
+            }
+            .sort-select {
+                font-size: 0.65rem;
+                padding: 4px 10px;
+            }
+            .letter-btn {
+                min-width: 28px;
+                height: 28px;
+                font-size: 0.65rem;
+            }
+            .song-title-primary {
+                font-size: 0.95rem;
+            }
+        }
+
+        @media(max-width:480px) {
+            .songs-grid {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+            .logo-text {
+                font-size: 0.85rem;
+            }
+            .logo-img {
+                width: 32px;
+                height: 32px;
+            }
+            .hero-title {
+                font-size: 1.6rem;
+            }
+            .hero-subtitle {
+                font-size: 0.95rem;
+            }
+            .hero-logo-img {
+                width: 56px;
+                height: 56px;
+            }
+            .modal-title-primary {
+                font-size: 1.1rem;
+            }
+            .modal-header {
+                padding: 16px 18px 12px;
+            }
+            .modal-body {
+                padding: 14px 16px;
+            }
+            .modal-actions {
+                padding: 10px 16px;
+            }
+            .btn {
+                font-size: 0.7rem;
+                padding: 6px 12px;
+            }
+            .controls {
+                padding: 10px 14px 4px;
+            }
+            #search {
+                padding: 10px 12px 10px 38px;
+                font-size: 0.8rem;
+            }
+            .filter-row {
+                gap: 4px;
+            }
+            .song-card {
+                padding: 14px 16px;
             }
         }
 
         /* ═══ LIGHT THEME OVERRIDES ═══ */
         [data-theme="light"] .song-card {
-            background: var(--surface);
-            border-color: var(--border);
+            background: rgba(255, 255, 255, 0.5);
         }
         [data-theme="light"] .song-card:hover {
-            background: var(--surface2);
+            background: rgba(255, 255, 255, 0.7);
         }
         [data-theme="light"] #search {
-            background: var(--surface);
-            color: var(--text);
+            background: rgba(255, 255, 255, 0.5);
         }
         [data-theme="light"] .filter-btn {
-            background: var(--surface);
-            color: var(--muted);
+            background: rgba(255, 255, 255, 0.4);
         }
         [data-theme="light"] .letter-btn {
-            background: var(--surface);
-            color: var(--muted);
+            background: rgba(255, 255, 255, 0.4);
         }
         [data-theme="light"] .modal {
-            background: var(--surface);
+            background: rgba(255, 255, 255, 0.85);
         }
         [data-theme="light"] .modal-header {
-            background: linear-gradient(180deg, var(--surface2), var(--surface));
+            background: linear-gradient(180deg, rgba(124, 58, 237, 0.05), transparent);
         }
-
-        /* ═══ GLOW PULSE on new songs ═══ */
-        .song-card.is-new::after {
-            content: '';
-            position: absolute;
-            inset: -1px;
-            border-radius: 14px;
-            border: 1px solid var(--accent2);
-            animation: glowPulse 2s ease-in-out infinite;
-            pointer-events: none;
+        [data-theme="light"] .now-playing {
+            background: rgba(255, 255, 255, 0.85);
         }
-        @keyframes glowPulse {
-            0%,
-            100% {
-                box-shadow: 0 0 8px var(--glow);
-            }
-            50% {
-                box-shadow: 0 0 20px var(--glow);
-            }
+        [data-theme="light"] .hero {
+            background: radial-gradient(ellipse 80% 60% at 50% 80%, rgba(124, 58, 237, 0.05) 0%, transparent 70%);
+        }
+        [data-theme="light"] .bg-glow .orb {
+            opacity: 0.1;
+        }
+        [data-theme="light"] .lang-toggle {
+            background: rgba(255, 255, 255, 0.4);
+        }
+        [data-theme="light"] .np-btn {
+            background: rgba(255, 255, 255, 0.5);
+        }
+        [data-theme="light"] .np-btn.play {
+            background: linear-gradient(135deg, var(--color-purple), var(--color-purple-light));
+            color: #fff;
+        }
+        [data-theme="light"] .btn-video {
+            background: rgba(255, 255, 255, 0.5);
+        }
+        [data-theme="light"] .btn-toggle-video {
+            background: rgba(255, 255, 255, 0.5);
+        }
+        [data-theme="light"] .stat-pill {
+            background: rgba(255, 255, 255, 0.4);
+        }
+        [data-theme="light"] .theme-btn {
+            background: rgba(255, 255, 255, 0.4);
+        }
+        [data-theme="light"] .song-card.is-new::after {
+            border-color: var(--color-purple);
         }
     </style>
 </head>
 <body>
 
-    <!-- Magic BG -->
+    <!-- Background Glow Orbs -->
+    <div class="bg-glow">
+        <div class="orb"></div>
+        <div class="orb"></div>
+        <div class="orb"></div>
+    </div>
+
+    <!-- Particle Canvas -->
     <canvas id="particles"></canvas>
+
+    <!-- Magic Circle Decoration -->
     <svg class="magic-circle" style="width:600px;height:600px;left:calc(50% - 300px);top:calc(50% - 300px)" viewBox="0 0 600 600">
         <circle cx="300" cy="300" r="280" stroke="#7c3aed" stroke-width="0.5" fill="none" stroke-dasharray="8 4"/>
         <circle cx="300" cy="300" r="240" stroke="#d4a843" stroke-width="0.3" fill="none" stroke-dasharray="4 8"/>
@@ -1284,6 +1560,7 @@
         <circle cx="300" cy="300" r="8" fill="#7c3aed" opacity="0.3"/>
     </svg>
 
+    <!-- Page Wipe & Flash -->
     <div class="page-wipe" id="page-wipe"></div>
     <div class="rune-flash" id="rune-flash">
         <svg width="300" height="300" viewBox="0 0 300 300" fill="none">
@@ -1293,6 +1570,7 @@
         </svg>
     </div>
 
+    <!-- ===== HEADER ===== -->
     <header>
         <div class="header-inner">
             <div class="logo">
@@ -1315,6 +1593,7 @@
         </div>
     </header>
 
+    <!-- ===== HERO ===== -->
     <div class="hero">
         <img class="hero-logo-img" src="https://play-lh.googleusercontent.com/nammmmboziAWEV2iwJSa37wTDDFEC-IcPpp5N2x-6R7G9MgPszHHjyDGzCmojn0vEguhmBb1BZ08lMmSRqrDMSE=w240-h480" alt="Logo" onerror="this.style.display='none'">
         <div class="hero-badge">✦ Telugu Christian Worship ✦</div>
@@ -1324,17 +1603,18 @@
         <div class="hero-divider"></div>
     </div>
 
+    <!-- ===== CONTROLS ===== -->
     <div class="controls">
         <div class="search-wrap">
-            <svg class="search-icon" width="18" height="18" viewBox="0 0 18 18" fill="none">
-                <circle cx="7.5" cy="7.5" r="5.5" stroke="currentColor" stroke-width="1.5"/>
-                <path d="M12 12L16 16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            <svg class="search-icon" width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="7.5" cy="7.5" r="5.5"/>
+                <path d="M12 12L16 16"/>
             </svg>
             <input id="search" type="search" placeholder="Search songs in Telugu or English…" autocomplete="off">
         </div>
         <div class="filter-row">
             <button class="filter-btn active" data-filter="all">All Songs</button>
-            <button class="filter-btn" data-filter="new">✦ New Songs</button>
+            <button class="filter-btn" data-filter="new">✦ New</button>
             <button class="filter-btn" data-filter="praise">Praise</button>
             <button class="filter-btn" data-filter="goodfriday">Good Friday</button>
             <button class="filter-btn" data-filter="secondcoming">Second Coming</button>
@@ -1347,6 +1627,7 @@
         </div>
     </div>
 
+    <!-- ===== LETTER FILTER ===== -->
     <div class="letter-filter-wrap" id="letter-filter-wrap" style="margin-top:10px">
         <div class="letter-filter-header">
             <span class="letter-filter-title" id="letter-filter-title">Filter by Letter</span>
@@ -1355,14 +1636,16 @@
         <div class="letters-row" id="letters-row"></div>
     </div>
 
+    <!-- ===== RESULTS BAR ===== -->
     <div class="results-bar">
         <span id="results-bar">Showing <span class="results-count" id="results-count">0</span> songs</span>
         <span class="loading-indicator" id="loading-indicator">⏳ Loading…</span>
     </div>
 
+    <!-- ===== SONGS GRID ===== -->
     <div class="songs-grid" id="songs-grid"></div>
 
-    <!-- Modal -->
+    <!-- ===== MODAL ===== -->
     <div class="modal-overlay" id="modal-overlay">
         <div class="modal" id="modal">
             <div class="modal-header">
@@ -1380,7 +1663,7 @@
         </div>
     </div>
 
-    <!-- Now Playing Bar -->
+    <!-- ===== NOW PLAYING BAR ===== -->
     <div class="now-playing" id="now-playing">
         <div class="np-info">
             <div class="np-title" id="np-title">—</div>
@@ -1401,9 +1684,10 @@
     </div>
     <audio id="audio-player"></audio>
 
+    <!-- ===== JAVASCRIPT ===== -->
     <script>
         // ============================================================
-        // 1. FIREBASE CONFIG — REPLACE WITH YOUR OWN FROM FIREBASE CONSOLE
+        // 1. FIREBASE CONFIG — REPLACE WITH YOUR OWN
         // ============================================================
         const firebaseConfig = {
             apiKey: "YOUR_API_KEY",
@@ -1415,14 +1699,13 @@
             appId: "YOUR_APP_ID"
         };
 
-        // Initialize Firebase
         firebase.initializeApp(firebaseConfig);
         const database = firebase.database();
 
         // ============================================================
         // 2. STATE
         // ============================================================
-        let SONGS = []; // will be populated from Firebase
+        let SONGS = [];
         let lang = 'te';
         let filter = 'all';
         let sortBy = 'id';
@@ -1433,7 +1716,6 @@
         let videoShown = false;
         const audioEl = document.getElementById('audio-player');
         const nowPlaying = document.getElementById('now-playing');
-        let isLoading = true;
 
         // ============================================================
         // 3. HELPERS
@@ -1472,7 +1754,7 @@
         }
 
         // ============================================================
-        // 6. PARTICLE SYSTEM (unchanged)
+        // 6. PARTICLE SYSTEM
         // ============================================================
         (function initParticles() {
             const c = document.getElementById('particles');
@@ -1489,30 +1771,35 @@
                     this.y = Math.random() * h; }
                 reset() { this.x = Math.random() * w;
                     this.y = h + 10;
-                    this.vy = -(0.2 + Math.random() * 0.5);
-                    this.vx = (Math.random() - 0.5) * 0.3;
-                    this.r = Math.random() * 1.5 + 0.5;
+                    this.vy = -(0.15 + Math.random() * 0.4);
+                    this.vx = (Math.random() - 0.5) * 0.2;
+                    this.r = Math.random() * 1.2 + 0.5;
                     this.life = 1;
                     this.type = Math.random() > 0.8 ? 'cross' : 'dot'; }
                 draw() {
-                    ctx.globalAlpha = this.life * 0.6;
-                    if (this.type === 'cross') { ctx.strokeStyle = '#d4a843';
+                    ctx.globalAlpha = this.life * 0.5;
+                    const colors = ['#7c3aed', '#d4a843', '#14b8a6', '#ec4899'];
+                    ctx.fillStyle = colors[Math.floor(Math.random() * colors.length)];
+                    if (this.type === 'cross') {
+                        ctx.strokeStyle = ctx.fillStyle;
                         ctx.lineWidth = 0.8;
                         ctx.beginPath();
-                        ctx.moveTo(this.x - 3, this.y);
-                        ctx.lineTo(this.x + 3, this.y);
-                        ctx.moveTo(this.x, this.y - 3);
-                        ctx.lineTo(this.x, this.y + 3);
-                        ctx.stroke(); } else { ctx.fillStyle = Math.random() > 0.5 ? '#7c3aed' : '#d4a843';
+                        ctx.moveTo(this.x - 2, this.y);
+                        ctx.lineTo(this.x + 2, this.y);
+                        ctx.moveTo(this.x, this.y - 2);
+                        ctx.lineTo(this.x, this.y + 2);
+                        ctx.stroke();
+                    } else {
                         ctx.beginPath();
                         ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
-                        ctx.fill(); }
+                        ctx.fill();
+                    }
                 }
                 update() { this.x += this.vx;
                     this.y += this.vy;
                     this.life -= 0.003; if (this.life <= 0) this.reset(); }
             }
-            for (let i = 0; i < 60; i++) particles.push(new Particle());
+            for (let i = 0; i < 50; i++) particles.push(new Particle());
 
             function loop() { ctx.clearRect(0, 0, w, h);
                 particles.forEach(p => { p.update();
@@ -1541,7 +1828,6 @@
                 const title = lang === 'te' ? s.tel : s.eng;
                 if (title && title[0]) usedLetters.add(title[0].toUpperCase());
             });
-            // Get all possible letters from SONGS (once loaded)
             const allLetters = [...new Set(SONGS.map(s => {
                 const t = lang === 'te' ? s.tel : s.eng;
                 return t && t[0] ? t[0].toUpperCase() : null;
@@ -1624,12 +1910,12 @@
                     (s.sections && s.sections[0] && s.sections[0].transliteration && s.sections[0].transliteration[
                     0]) || '';
                 const audioBtn = s.audio ?
-                    `<a class="icon-btn" href="#" title="Play" onclick="event.preventDefault();event.stopPropagation();playAudio(${s.id})"><svg width="10" height="10" viewBox="0 0 10 10" fill="currentColor"><polygon points="2,1 9,5 2,9"/></svg></a>` :
+                    `<a class="icon-btn" href="#" title="Play" onclick="event.preventDefault();event.stopPropagation();playAudio(${s.id})"><svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor"><polygon points="2,1 10,6 2,11"/></svg></a>` :
                     '';
                 const videoBtn = s.video ?
-                    `<a class="icon-btn" href="${s.video}" target="_blank" title="YouTube" onclick="event.stopPropagation()"><svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="0.5" y="1.5" width="9" height="7" rx="1.2"/><polygon points="3.5,3.5 7.5,5 3.5,6.5" fill="currentColor" stroke="none"/></svg></a>` :
+                    `<a class="icon-btn" href="${s.video}" target="_blank" title="YouTube" onclick="event.stopPropagation()"><svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="0.5" y="1.5" width="11" height="9" rx="1.5"/><polygon points="4.5,3.5 8.5,6 4.5,8.5" fill="currentColor" stroke="none"/></svg></a>` :
                     '';
-                return `<div class="song-card${s.new?' is-new':''}" onclick="openModal(${s.id})" style="animation-delay:${Math.min(i,30)*0.02}s">
+                return `<div class="song-card${s.new?' is-new':''}" onclick="openModal(${s.id})" style="animation-delay:${Math.min(i,30)*0.03}s">
                         <div class="song-num">#${padId(s.id)}</div>
                         <div class="song-title-primary">${primaryTitle}</div>
                         <div class="song-title-secondary">${secondaryTitle}</div>
@@ -1713,7 +1999,6 @@
             document.getElementById('video-wrap').style.display = 'none';
             document.getElementById('yt-iframe').src = '';
             renderModalBody(song);
-            // Actions
             const acts = [];
             if (song.audio) acts.push(`<button class="btn btn-audio" onclick="playAudio(${id})">▶ Play Audio</button>`);
             if (song.video) {
@@ -1816,23 +2101,18 @@
         }
 
         // ============================================================
-        // 13. FIREBASE DATA LOADING — with proper mapping
+        // 13. FIREBASE DATA LOADING
         // ============================================================
         function loadSongsFromFirebase() {
             const loadingIndicator = document.getElementById('loading-indicator');
             loadingIndicator.classList.add('active');
-
             const songsRef = database.ref('songs');
 
             songsRef.on('value', (snapshot) => {
                 const data = snapshot.val();
                 if (data) {
-                    // Convert object to array (keys are numeric strings)
                     const rawSongs = Object.values(data);
-
-                    // Map each raw song to the expected format
                     SONGS = rawSongs.map((raw) => {
-                        // Ensure each song has an id; fallback to index if missing
                         const id = raw.id || (rawSongs.indexOf(raw) + 1);
                         const titleTelugu = raw.title?.telugu || '';
                         const titleEnglish = raw.title?.english || '';
@@ -1858,20 +2138,16 @@
                             }))
                         };
                     });
-
-                    // Log first song to verify mapping
-                    console.log('✅ First song mapped:', SONGS[0]);
-
+                    console.log('✅ Loaded', SONGS.length, 'songs');
                     updateUI();
                     loadingIndicator.classList.remove('active');
                     try { localStorage.setItem('songsCache', JSON.stringify(SONGS)); } catch(e) {}
                     document.getElementById('hero-count').textContent = SONGS.length;
                 } else {
-                    // No data in Firebase, try cache
                     loadFromCache();
                 }
             }, (error) => {
-                console.error('Firebase read error:', error);
+                console.error('Firebase error:', error);
                 loadFromCache();
                 loadingIndicator.classList.remove('active');
             });
@@ -1886,7 +2162,6 @@
                     document.getElementById('loading-indicator').classList.remove('active');
                     document.getElementById('hero-count').textContent = SONGS.length;
                 } else {
-                    // No cache, show empty
                     document.getElementById('loading-indicator').classList.remove('active');
                     document.getElementById('hero-count').textContent = '0';
                     renderGrid();
